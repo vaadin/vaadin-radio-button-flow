@@ -51,6 +51,27 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         waitUntil(
                 driver -> "Radio button group value changed from 'bar' to 'foo'"
                         .equals(valueDiv.getText()));
+
+        buttons.get(0).click();
+
+        waitUntil(driver -> "Radio button value changed from 'bar' to 'foo'"
+                .equals(valueDiv.getText()));
+    }
+
+    @Test
+    public void itemGenerator() {
+        WebElement valueDiv = layout
+                .findElement(By.id("button-group-gen-value"));
+        WebElement group = layout
+                .findElement(By.id("button-group-with-item-generator"));
+
+        List<WebElement> buttons = group
+                .findElements(By.tagName("vaadin-radio-button"));
+
+        buttons.get(1).click();
+
+        waitUntil(driver -> "Radio button value changed from 'null' to 'John'"
+                .equals(valueDiv.getText()));
     }
 
     @Test
