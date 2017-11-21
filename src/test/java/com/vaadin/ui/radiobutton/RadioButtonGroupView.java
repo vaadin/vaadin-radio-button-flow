@@ -24,9 +24,24 @@ import com.vaadin.ui.html.Div;
 @HtmlImport("bower_components/vaadin-valo-theme/vaadin-radio-button.html")
 public class RadioButtonGroupView extends DemoView {
 
+    public static class Person {
+
+        private String name;
+
+        public Person(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+    }
+
     @Override
     protected void initView() {
         addBasicFeatures();
+        addItemLabelGenerator();
         addDisabled();
     }
 
@@ -34,24 +49,51 @@ public class RadioButtonGroupView extends DemoView {
         Div message = new Div();
 
         // begin-source-example
-        // source-example-heading: Basic text area
+        // source-example-heading: Basic radio button group
         RadioButtonGroup<String> group = new RadioButtonGroup<>();
         group.setItems("foo", "bar", "baz");
         group.addValueChangeListener(event -> message.setText(
-                String.format("Text area value changed from '%s' to '%s'",
+                String.format("Radio button value changed from '%s' to '%s'",
                         event.getOldValue(), event.getValue())));
         // end-source-example
 
         group.setId("button-group-with-value-change-listener");
         message.setId("button-group-value");
 
-        addCard("Basic text area", group, message);
+        addCard("Basic radio button group", group, message);
+    }
+
+    private void addItemLabelGenerator() {
+        Div message = new Div();
+
+        // begin-source-example
+        // source-example-heading: Radio button group with label generator
+        RadioButtonGroup<Person> group = new RadioButtonGroup<>();
+        group.setItems(new Person("Joe"), new Person("John"),
+                new Person("Bill"));
+        group.setItemLabelGenerator(Person::getName);
+        group.addValueChangeListener(event -> message.setText(String.format(
+                "Radio button value changed from '%s' to '%s'",
+                getName(event.getOldValue()), getName(event.getValue()))));
+        // end-source-example
+
+        group.setId("button-group-with-item-generator");
+        message.setId("button-group-gen-value");
+
+        addCard("Radio button group with label generator", group, message);
+    }
+
+    private String getName(Person person) {
+        if (person == null) {
+            return null;
+        }
+        return person.getName();
     }
 
     private void addDisabled() {
 
         // begin-source-example
-        // source-example-heading: Basic text area
+        // source-example-heading: Disabled radio button group
         RadioButtonGroup<String> group = new RadioButtonGroup<>();
         group.setItems("foo", "bar", "baz");
         group.setDisabled(true);
@@ -59,7 +101,7 @@ public class RadioButtonGroupView extends DemoView {
 
         group.setId("button-group-disabled");
 
-        addCard("Basic text area", group);
+        addCard("Disabled radio button group", group);
     }
 
 }

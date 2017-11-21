@@ -16,6 +16,7 @@
 package com.vaadin.ui.radiobutton;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.vaadin.data.HasDataProvider;
 import com.vaadin.data.provider.DataProvider;
@@ -24,6 +25,7 @@ import com.vaadin.data.provider.Query;
 import com.vaadin.data.selection.SingleSelect;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.common.ItemLabelGenerator;
 import com.vaadin.ui.event.PropertyChangeEvent;
 
 /**
@@ -40,6 +42,8 @@ public class RadioButtonGroup<T>
     private final KeyMapper<T> keyMapper = new KeyMapper<>();
 
     private DataProvider<T, ?> dataProvider = DataProvider.ofItems();
+
+    private ItemLabelGenerator<T> itemLabelGenerator = String::valueOf;
 
     public RadioButtonGroup() {
         getElement().synchronizeProperty(VALUE, "value-changed");
@@ -73,6 +77,32 @@ public class RadioButtonGroup<T>
     }
 
     /**
+     * Sets the item label generator that is used to produce the strings shown
+     * in the combo box for each item. By default,
+     * {@link String#valueOf(Object)} is used.
+     *
+     * @param itemLabelGenerator
+     *            the item label provider to use, not null
+     */
+    public void setItemLabelGenerator(
+            ItemLabelGenerator<T> itemLabelGenerator) {
+        Objects.requireNonNull(itemLabelGenerator,
+                "Item label generators must not be null");
+        this.itemLabelGenerator = itemLabelGenerator;
+        refresh();
+    }
+
+    /**
+     * Gets the item label generator that is used to produce the strings shown
+     * in the combo box for each item.
+     *
+     * @return the item label generator used, not null
+     */
+    public ItemLabelGenerator<T> getItemLabelGenerator() {
+        return itemLabelGenerator;
+    }
+
+    /**
      * Gets the data provider.
      *
      * @return the data provider, not {@code null}
@@ -89,7 +119,8 @@ public class RadioButtonGroup<T>
     }
 
     private Component createRadioButton(T item) {
-        return new RadioButton<>(keyMapper.key(item), item);
+        return new RadioButton(keyMapper.key(item),
+                getItemLabelGenerator().apply(item));
     }
 
     private ValueChangeEvent<RadioButtonGroup<T>, T> createValueChangeEvent(
