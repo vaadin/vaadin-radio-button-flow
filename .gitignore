@@ -9,3 +9,7 @@ target/
 # Selenium
 error-screenshots
 reference-screenshots
+
+# Intellij Idea files
+.idea
+*.iml
