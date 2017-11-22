@@ -54,8 +54,9 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
 
         buttons.get(0).click();
 
-        waitUntil(driver -> "Radio button value changed from 'bar' to 'foo'"
-                .equals(valueDiv.getText()));
+        waitUntil(
+                driver -> "Radio button group value changed from 'bar' to 'foo'"
+                        .equals(valueDiv.getText()));
     }
 
     @Test
@@ -68,10 +69,12 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         List<WebElement> buttons = group
                 .findElements(By.tagName("vaadin-radio-button"));
 
+        executeScript("arguments[0].scrollIntoView(true);", group);
         buttons.get(1).click();
 
-        waitUntil(driver -> "Radio button value changed from 'null' to 'John'"
-                .equals(valueDiv.getText()));
+        waitUntil(
+                driver -> "Radio button group value changed from 'null' to 'John'"
+                        .equals(valueDiv.getText()));
     }
 
     @Test
@@ -90,6 +93,8 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
 
         List<WebElement> buttons = group
                 .findElements(By.tagName("vaadin-radio-button"));
+
+        executeScript("arguments[0].scrollIntoView(true);", group);
 
         buttons.get(1).click();
         WebElement anchor = buttons.get(0).findElement(By.tagName("a"));

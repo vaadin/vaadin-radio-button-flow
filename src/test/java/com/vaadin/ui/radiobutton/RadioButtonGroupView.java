@@ -66,9 +66,9 @@ public class RadioButtonGroupView extends DemoView {
         // source-example-heading: Basic radio button group
         RadioButtonGroup<String> group = new RadioButtonGroup<>();
         group.setItems("foo", "bar", "baz");
-        group.addValueChangeListener(event -> message.setText(
-                String.format("Radio button value changed from '%s' to '%s'",
-                        event.getOldValue(), event.getValue())));
+        group.addValueChangeListener(event -> message.setText(String.format(
+                "Radio button group value changed from '%s' to '%s'",
+                event.getOldValue(), event.getValue())));
         // end-source-example
 
         group.setId("button-group-with-value-change-listener");
@@ -108,7 +108,7 @@ public class RadioButtonGroupView extends DemoView {
                 new Person("Bill"));
         group.setItemRenderer(new TextRenderer<>(Person::getName));
         group.addValueChangeListener(event -> message.setText(String.format(
-                "Radio button value changed from '%s' to '%s'",
+                "Radio button group value changed from '%s' to '%s'",
                 getName(event.getOldValue()), getName(event.getValue()))));
         // end-source-example
 
