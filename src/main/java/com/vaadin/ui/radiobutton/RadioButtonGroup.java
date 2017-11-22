@@ -111,8 +111,7 @@ public class RadioButtonGroup<T>
      */
     public void setItemEnabledProvider(
             SerializablePredicate<T> itemEnabledProvider) {
-        Objects.requireNonNull(itemEnabledProvider);
-        this.itemEnabledProvider = itemEnabledProvider;
+        this.itemEnabledProvider = Objects.requireNonNull(itemEnabledProvider);
         refreshButtons();
     }
 
@@ -135,8 +134,7 @@ public class RadioButtonGroup<T>
      */
     public void setItemRenderer(
             ComponentRenderer<? extends Component, T> itemRenderer) {
-        Objects.requireNonNull(itemRenderer);
-        this.itemRenderer = itemRenderer;
+        this.itemRenderer = Objects.requireNonNull(itemRenderer);
         refreshButtons();
     }
 
