@@ -17,12 +17,15 @@ package com.vaadin.ui.radiobutton;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 import com.vaadin.data.HasDataProvider;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.KeyMapper;
 import com.vaadin.data.provider.Query;
 import com.vaadin.data.selection.SingleSelect;
+import com.vaadin.flow.dom.Element;
 import com.vaadin.function.SerializablePredicate;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.Component;
@@ -107,7 +110,7 @@ public class RadioButtonGroup<T>
      * predicate always returns true (all the items are enabled).
      *
      * @param itemEnabledProvider
-     *            the item enable predicate, not {@code null}
+     *         the item enable predicate, not {@code null}
      */
     public void setItemEnabledProvider(
             SerializablePredicate<T> itemEnabledProvider) {
@@ -130,7 +133,7 @@ public class RadioButtonGroup<T>
      * applied to each item to create a component which represents the item.
      *
      * @param itemRenderer
-     *            the item renderer, not {@code null}
+     *         the item renderer, not {@code null}
      */
     public void setItemRenderer(
             ComponentRenderer<? extends Component, T> itemRenderer) {
@@ -172,4 +175,87 @@ public class RadioButtonGroup<T>
                 event.isUserOriginated());
     }
 
+    /**
+     * Add components to the end of the current items and components.
+     *
+     * @param components
+     *         components to add
+     */
+    public void addComponents(Component... components) {
+        add(components);
+    }
+
+    /**
+     * Remove a component from the group.
+     *
+     * @param component
+     *         component to remove
+     */
+    public void removeComponent(Component component) {
+        remove(component);
+    }
+
+    /**
+     * Adds the components after the given item.
+     * The item must have be added to group via setItems/dataProvider/addItems
+     *
+     * @param afterItem
+     *         item to add components after
+     * @param components
+     *         components to add after item
+     */
+    public void addComponents(T afterItem, Component... components) {
+        Optional<RadioButton<T>> itemButton = getRadioButtonForItem(afterItem);
+
+        if (itemButton.isPresent()) {
+            int insertPosition = getItemPosition(itemButton);
+
+            for (Component component : components) {
+                getElement()
+                        .insertChild(++insertPosition, component.getElement());
+            }
+        }
+    }
+
+    /**
+     * Adds the components before the given item.
+     * The item must have be added to group via setItems/dataProvider/addItems
+     *
+     * @param beforeItem
+     *         item to add components in front of
+     * @param components
+     *         components to add before item
+     */
+    public void prependComponents(T beforeItem, Component... components) {
+        Optional<RadioButton<T>> itemButton = getRadioButtonForItem(beforeItem);
+
+        if (itemButton.isPresent()) {
+            int insertPosition = getItemPosition(itemButton);
+
+            for (Component component : components) {
+                getElement()
+                        .insertChild(insertPosition++, component.getElement());
+            }
+        }
+    }
+
+    private Optional<RadioButton<T>> getRadioButtonForItem(T afterItem) {
+        return getChildren().filter(RadioButton.class::isInstance)
+                .map(child -> (RadioButton<T>) child)
+                .filter(button -> button.getItem().equals(afterItem))
+                .findFirst();
+    }
+
+    private int getItemPosition(Optional<RadioButton<T>> itemButton) {
+        Element buttonElement = itemButton.get().getElement();
+        int itemPosition = IntStream.range(0, getElement().getChildCount())
+                .filter(i -> getElement().getChild(i).equals(buttonElement))
+                .findFirst().orElse(-1);
+
+        if (itemPosition == -1) {
+            throw new IllegalArgumentException(
+                    "Could not locate item RadioButton element in group to insert components after.");
+        }
+        return itemPosition;
+    }
 }
