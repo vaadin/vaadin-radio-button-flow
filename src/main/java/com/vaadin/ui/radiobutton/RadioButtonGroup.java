@@ -78,9 +78,10 @@ public class RadioButtonGroup<T>
     @Override
     public Registration addValueChangeListener(
             ValueChangeListener<RadioButtonGroup<T>, T> listener) {
-        return get().getElement().addPropertyChangeListener(
-                getClientValuePropertyName(), event -> listener
-                        .onComponentEvent(createValueChangeEvent(event)));
+        return get().getElement()
+                .addPropertyChangeListener(getClientValuePropertyName(),
+                        event -> listener.onComponentEvent(
+                                createValueChangeEvent(event)));
     }
 
     /**
@@ -177,6 +178,9 @@ public class RadioButtonGroup<T>
 
     /**
      * Add components to the end of the current items and components.
+     * <p>
+     * Note! Changing the item set by setting new items or dataprovider will
+     * clear all components.
      *
      * @param components
      *         components to add
@@ -197,7 +201,10 @@ public class RadioButtonGroup<T>
 
     /**
      * Adds the components after the given item.
-     * The item must have be added to group via setItems/dataProvider/addItems
+     * The item must have be added to group via setItems/dataProvider
+     * <p>
+     * Note! Changing the item set by setting new items or dataprovider will
+     * clear all components.
      *
      * @param afterItem
      *         item to add components after
@@ -211,15 +218,19 @@ public class RadioButtonGroup<T>
             int insertPosition = getItemPosition(itemButton);
 
             for (Component component : components) {
+                insertPosition += 1;
                 getElement()
-                        .insertChild(++insertPosition, component.getElement());
+                        .insertChild(insertPosition, component.getElement());
             }
         }
     }
 
     /**
      * Adds the components before the given item.
-     * The item must have be added to group via setItems/dataProvider/addItems
+     * The item must have be added to group via setItems/dataProvider
+     * <p>
+     * Note! Changing the item set by setting new items or dataprovider will
+     * clear all components.
      *
      * @param beforeItem
      *         item to add components in front of
@@ -234,16 +245,16 @@ public class RadioButtonGroup<T>
 
             for (Component component : components) {
                 getElement()
-                        .insertChild(insertPosition++, component.getElement());
+                        .insertChild(insertPosition, component.getElement());
+                insertPosition += 1;
             }
         }
     }
 
-    private Optional<RadioButton<T>> getRadioButtonForItem(T afterItem) {
+    private Optional<RadioButton<T>> getRadioButtonForItem(T item) {
         return getChildren().filter(RadioButton.class::isInstance)
                 .map(child -> (RadioButton<T>) child)
-                .filter(button -> button.getItem().equals(afterItem))
-                .findFirst();
+                .filter(button -> button.getItem().equals(item)).findFirst();
     }
 
     private int getItemPosition(Optional<RadioButton<T>> itemButton) {
