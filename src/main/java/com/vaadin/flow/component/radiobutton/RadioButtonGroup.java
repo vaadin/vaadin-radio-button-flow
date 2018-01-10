@@ -38,7 +38,7 @@ import com.vaadin.flow.shared.Registration;
  */
 public class RadioButtonGroup<T>
         extends GeneratedVaadinRadioGroup<RadioButtonGroup<T>>
-        implements HasItemsAndComponents<T, RadioButton<T>>,
+        implements HasItemsAndComponents<T>,
         SingleSelect<RadioButtonGroup<T>, T>, HasDataProvider<T> {
 
     private static final String VALUE = "value";
