@@ -32,7 +32,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.webjars.bower</groupId>
+            <groupId>org.webjars.bowergithub.vaadin</groupId>
             <artifactId>vaadin-radio-button</artifactId>
         </dependency>
         <dependency>
