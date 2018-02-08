@@ -15,7 +15,6 @@
  */
 package com.vaadin.flow.component.radiobutton.demo;
 
-import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Hr;
@@ -29,7 +28,6 @@ import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
 
 @Route("vaadin-radio-button")
-@HtmlImport("frontend://bower_components/vaadin-radio-button/theme/lumo/vaadin-radio-button.html")
 public class RadioButtonGroupView extends DemoView {
 
     public static class Person {
