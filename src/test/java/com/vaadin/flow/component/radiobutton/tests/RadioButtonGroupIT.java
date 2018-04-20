@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import com.vaadin.flow.demo.ComponentDemoTest;
 
@@ -121,6 +122,40 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
 
         Assert.assertEquals(Boolean.TRUE.toString(),
                 buttons.get(1).getAttribute("disabled"));
+    }
+
+    @Test
+    public void readOnlyGroup() {
+        WebElement group = layout.findElement(By.id("button-group-read-only"));
+
+        List<WebElement> buttons = group
+                .findElements(By.tagName("vaadin-radio-button"));
+
+        Assert.assertEquals(Boolean.TRUE.toString(),
+                buttons.get(1).getAttribute("disabled"));
+        Assert.assertEquals(Boolean.TRUE.toString(),
+                group.getAttribute("disabled"));
+
+        new Actions(getDriver()).moveToElement(buttons.get(1)).click().build()
+                .perform();
+
+        WebElement valueInfo = layout.findElement(By.id("selected-value-info"));
+        Assert.assertEquals("", valueInfo.getText());
+
+        // make the group not read-only
+        WebElement switchReadOnly = findElement(By.id("switch-read-only"));
+        scrollIntoViewAndClick(switchReadOnly);
+
+        scrollIntoViewAndClick(buttons.get(1));
+        Assert.assertEquals("bar", valueInfo.getText());
+
+        // make it read-only again
+        scrollIntoViewAndClick(switchReadOnly);
+
+        // click to the first item
+        scrollIntoViewAndClick(buttons.get(0));
+        // Nothing has changed
+        Assert.assertEquals("bar", valueInfo.getText());
     }
 
     @Test
