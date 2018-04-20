@@ -144,16 +144,19 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
 
         // make the group not read-only
         WebElement switchReadOnly = findElement(By.id("switch-read-only"));
-        scrollIntoViewAndClick(switchReadOnly);
+        scrollToElement(group);
+        getCommandExecutor().executeScript("window.scrollBy(0,50);");
+        switchReadOnly.click();
 
-        scrollIntoViewAndClick(buttons.get(1));
+        buttons.get(1).click();
         Assert.assertEquals("bar", valueInfo.getText());
 
         // make it read-only again
-        scrollIntoViewAndClick(switchReadOnly);
+        switchReadOnly.click();
 
         // click to the first item
-        scrollIntoViewAndClick(buttons.get(0));
+        buttons.get(0).click();
+
         // Nothing has changed
         Assert.assertEquals("bar", valueInfo.getText());
     }
