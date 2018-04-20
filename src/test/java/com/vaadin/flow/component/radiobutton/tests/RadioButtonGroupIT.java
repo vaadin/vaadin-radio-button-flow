@@ -136,6 +136,9 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         Assert.assertEquals(Boolean.TRUE.toString(),
                 group.getAttribute("disabled"));
 
+        scrollToElement(group);
+        getCommandExecutor().executeScript("window.scrollBy(0,50);");
+
         new Actions(getDriver()).moveToElement(buttons.get(1)).click().build()
                 .perform();
 
@@ -144,16 +147,21 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
 
         // make the group not read-only
         WebElement switchReadOnly = findElement(By.id("switch-read-only"));
-        scrollIntoViewAndClick(switchReadOnly);
+        new Actions(getDriver()).moveToElement(switchReadOnly).click().build()
+                .perform();
 
-        scrollIntoViewAndClick(buttons.get(1));
+        new Actions(getDriver()).moveToElement(buttons.get(1)).click().build()
+                .perform();
         Assert.assertEquals("bar", valueInfo.getText());
 
         // make it read-only again
-        scrollIntoViewAndClick(switchReadOnly);
+        new Actions(getDriver()).moveToElement(switchReadOnly).click().build()
+                .perform();
 
         // click to the first item
-        scrollIntoViewAndClick(buttons.get(0));
+        new Actions(getDriver()).moveToElement(buttons.get(0)).click().build()
+                .perform();
+
         // Nothing has changed
         Assert.assertEquals("bar", valueInfo.getText());
     }
