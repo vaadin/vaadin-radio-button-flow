@@ -122,6 +122,31 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
 
         Assert.assertEquals(Boolean.TRUE.toString(),
                 buttons.get(1).getAttribute("disabled"));
+
+        scrollToElement(group);
+        getCommandExecutor().executeScript("window.scrollBy(0,50);");
+
+        new Actions(getDriver()).moveToElement(buttons.get(0)).click().build()
+                .perform();
+
+        WebElement infoLabel = layout
+                .findElement(By.id("button-group-disabled-items-info"));
+
+        Assert.assertEquals("'foo' should be selected", "foo",
+                infoLabel.getText());
+
+        executeScript("arguments[0].removeAttribute(\"disabled\");"
+                + "arguments[0].click();", buttons.get(1));
+
+        new Actions(getDriver()).moveToElement(buttons.get(0)).click().build()
+                .perform();
+
+        Assert.assertEquals("Server should have disabled the button again.",
+                Boolean.TRUE.toString(),
+                buttons.get(1).getAttribute("disabled"));
+
+        Assert.assertEquals("Value 'foo' should have been re-selected", "foo",
+                infoLabel.getText());
     }
 
     @Test
