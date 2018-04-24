@@ -136,15 +136,17 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         Assert.assertEquals("'foo' should be selected", "foo",
                 infoLabel.getText());
 
-        executeScript("arguments[0].removeAttribute(\"disabled\");"
-                + "arguments[0].click();", buttons.get(1));
+        executeScript("arguments[0].removeAttribute(\"disabled\");",
+                buttons.get(1));
 
         new Actions(getDriver()).moveToElement(buttons.get(0)).click().build()
                 .perform();
 
         try {
-            waitUntil(driver -> buttons.get(1).getAttribute("disabled") != null);
-        }catch(WebDriverException wde) {
+            waitUntil(driver ->
+                    group.findElements(By.tagName("vaadin-radio-button")).get(1)
+                            .getAttribute("disabled") != null);
+        } catch (WebDriverException wde) {
             Assert.fail("Server should have disabled the button again.");
         }
 
@@ -251,15 +253,11 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
             Assert.assertEquals(
                     "Expected second in group " + (i + 1) + " to be a <hr>",
                     "hr", elements.get(firstInGroup + 1).getTagName());
-            Assert.assertEquals(
-                    "Expected third in group " + (i + 1)
-                            + " to be a <vaadin-radio-button>",
-                    "vaadin-radio-button",
+            Assert.assertEquals("Expected third in group " + (i + 1)
+                            + " to be a <vaadin-radio-button>", "vaadin-radio-button",
                     elements.get(firstInGroup + 2).getTagName());
-            Assert.assertEquals(
-                    "Expected fourth in group " + (i + 1)
-                            + " to be a <vaadin-radio-button>",
-                    "vaadin-radio-button",
+            Assert.assertEquals("Expected fourth in group " + (i + 1)
+                            + " to be a <vaadin-radio-button>", "vaadin-radio-button",
                     elements.get(firstInGroup + 3).getTagName());
         });
     }
