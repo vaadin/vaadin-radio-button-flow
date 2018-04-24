@@ -139,7 +139,7 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         executeScript("arguments[0].removeAttribute(\"disabled\");",
                 buttons.get(1));
 
-        new Actions(getDriver()).moveToElement(buttons.get(0)).click().build()
+        new Actions(getDriver()).moveToElement(buttons.get(1)).click().build()
                 .perform();
 
         try {
