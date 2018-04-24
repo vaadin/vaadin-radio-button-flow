@@ -21,6 +21,7 @@ import java.util.stream.IntStream;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
@@ -141,9 +142,11 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         new Actions(getDriver()).moveToElement(buttons.get(0)).click().build()
                 .perform();
 
-        Assert.assertEquals("Server should have disabled the button again.",
-                Boolean.TRUE.toString(),
-                buttons.get(1).getAttribute("disabled"));
+        try {
+            waitUntil(driver -> buttons.get(1).getAttribute("disabled") != null);
+        }catch(WebDriverException wde) {
+            Assert.fail("Server should have disabled the button again.");
+        }
 
         Assert.assertEquals("Value 'foo' should have been re-selected", "foo",
                 infoLabel.getText());
