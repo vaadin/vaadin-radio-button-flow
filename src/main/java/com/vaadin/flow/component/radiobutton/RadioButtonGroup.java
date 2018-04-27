@@ -64,7 +64,10 @@ public class RadioButtonGroup<T>
 
     private static <T> String modelToPresentation(
             RadioButtonGroup<T> radioButtonGroup, T model) {
-        return model == null ? null : model.toString();
+        if (!radioButtonGroup.keyMapper.has(model)) {
+            return null;
+        }
+        return radioButtonGroup.keyMapper.key(model);
     };
 
     public RadioButtonGroup() {
