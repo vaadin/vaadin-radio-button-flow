@@ -38,7 +38,7 @@ import com.vaadin.flow.shared.Registration;
  * @author Vaadin Ltd.
  */
 public class RadioButtonGroup<T>
-        extends GeneratedVaadinRadioGroup<RadioButtonGroup<T>>
+        extends GeneratedVaadinRadioGroup<RadioButtonGroup<T>, T>
         implements HasItemsAndComponents<T>,
         SingleSelect<RadioButtonGroup<T>, T>, HasDataProvider<T> {
 
@@ -52,7 +52,24 @@ public class RadioButtonGroup<T>
 
     private boolean isReadOnly;
 
+    private static final String I18N_PROPERTY = "i18n";
+
+    private static <T> T presentationToModel(
+            RadioButtonGroup<T> radioButtonGroup, String presentation) {
+        if (!radioButtonGroup.keyMapper.containsKey(presentation)) {
+            return null;
+        }
+        return radioButtonGroup.keyMapper.get(presentation);
+    };
+
+    private static <T> String modelToPresentation(
+            RadioButtonGroup<T> radioButtonGroup, T model) {
+        return model.toString();
+    };
+
     public RadioButtonGroup() {
+        super(null, null, String.class, RadioButtonGroup::presentationToModel,
+                RadioButtonGroup::modelToPresentation);
         getElement().synchronizeProperty(getClientValuePropertyName(),
                 getClientPropertyChangeEventName());
         getElement().addPropertyChangeListener(getClientValuePropertyName(),
@@ -68,21 +85,6 @@ public class RadioButtonGroup<T>
                     .get(oldKey == null ? null : oldKey.toString());
             setValue(oldValue);
         }
-    }
-
-    @Override
-    public void setValue(T value) {
-        if (!keyMapper.has(value)) {
-            return;
-        }
-        getElement().setProperty(getClientValuePropertyName(),
-                keyMapper.key(value));
-    }
-
-    @Override
-    public T getValue() {
-        return keyMapper
-                .get(getElement().getProperty(getClientValuePropertyName()));
     }
 
     @Override
