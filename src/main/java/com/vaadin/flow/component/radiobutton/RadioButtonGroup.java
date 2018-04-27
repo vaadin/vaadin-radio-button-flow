@@ -64,7 +64,7 @@ public class RadioButtonGroup<T>
 
     private static <T> String modelToPresentation(
             RadioButtonGroup<T> radioButtonGroup, T model) {
-        return model.toString();
+        return model == null ? null : model.toString();
     };
 
     public RadioButtonGroup() {
