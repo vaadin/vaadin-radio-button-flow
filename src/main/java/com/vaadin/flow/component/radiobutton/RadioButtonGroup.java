@@ -52,8 +52,6 @@ public class RadioButtonGroup<T>
 
     private boolean isReadOnly;
 
-    private static final String I18N_PROPERTY = "i18n";
-
     private static <T> T presentationToModel(
             RadioButtonGroup<T> radioButtonGroup, String presentation) {
         if (!radioButtonGroup.keyMapper.containsKey(presentation)) {
@@ -73,8 +71,7 @@ public class RadioButtonGroup<T>
     public RadioButtonGroup() {
         super(null, null, String.class, RadioButtonGroup::presentationToModel,
                 RadioButtonGroup::modelToPresentation);
-        getElement().synchronizeProperty(getClientValuePropertyName(),
-                getClientPropertyChangeEventName());
+
         getElement().addPropertyChangeListener(getClientValuePropertyName(),
                 this::validateSelectionEnabledState);
     }
