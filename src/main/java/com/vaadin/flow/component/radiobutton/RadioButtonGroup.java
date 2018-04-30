@@ -18,8 +18,8 @@ package com.vaadin.flow.component.radiobutton;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.data.binder.HasDataProvider;
 import com.vaadin.flow.data.binder.HasItemsAndComponents;
 import com.vaadin.flow.data.provider.DataProvider;
@@ -72,7 +72,7 @@ public class RadioButtonGroup<T>
         super(null, null, String.class, RadioButtonGroup::presentationToModel,
                 RadioButtonGroup::modelToPresentation);
 
-        getElement().addPropertyChangeListener(getClientValuePropertyName(),
+        getElement().addPropertyChangeListener("value",
                 this::validateSelectionEnabledState);
     }
 
@@ -95,11 +95,10 @@ public class RadioButtonGroup<T>
 
     @Override
     public Registration addValueChangeListener(
-            ValueChangeListener<RadioButtonGroup<T>, T> listener) {
-        return getElement()
-                .addPropertyChangeListener(getClientValuePropertyName(),
-                        event -> listener.onComponentEvent(
-                                createValueChangeEvent(event)));
+            ValueChangeListener<? super ComponentValueChangeEvent<RadioButtonGroup<T>, T>> listener) {
+        return getElement().addPropertyChangeListener(
+                getClientValuePropertyName(),
+                event -> listener.valueChanged(createValueChangeEvent(event)));
     }
 
     /**
@@ -209,11 +208,11 @@ public class RadioButtonGroup<T>
         button.add(getItemRenderer().createComponent(button.getItem()));
     }
 
-    private HasValue.ValueChangeEvent<RadioButtonGroup<T>, T> createValueChangeEvent(
+    private AbstractField.ComponentValueChangeEvent<RadioButtonGroup<T>, T> createValueChangeEvent(
             PropertyChangeEvent event) {
         Serializable oldKey = event.getOldValue();
         T oldValue = keyMapper.get(oldKey == null ? null : oldKey.toString());
-        return new HasValue.ValueChangeEvent<>(this, this, oldValue,
-                event.isUserOriginated());
+        return new ComponentValueChangeEvent<RadioButtonGroup<T>, T>(this, this,
+                oldValue, event.isUserOriginated());
     }
 }
