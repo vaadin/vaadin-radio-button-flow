@@ -206,9 +206,7 @@ public class RadioButtonGroup<T>
     }
 
     private void updateButton(RadioButton<T> button) {
-        boolean disabled = isDisabledBoolean()
-                || !getItemEnabledProvider().test(button.getItem());
-        button.setDisabled(disabled);
+        updateEnabled(button);
         button.removeAll();
         button.add(getItemRenderer().createComponent(button.getItem()));
     }
@@ -228,20 +226,22 @@ public class RadioButtonGroup<T>
                     button -> button.getItem() == getValue(event.getValue()))
                     .findFirst();
 
-            selectedButton.ifPresent(this::resetEnabledState);
+            selectedButton.ifPresent(this::updateEnabled);
         }
     }
 
-    private void resetEnabledState(RadioButton<T> button) {
+    private void updateEnabled(RadioButton<T> button) {
+        boolean disabled = isDisabledBoolean()
+                || !getItemEnabledProvider().test(button.getItem());
         Serializable rawValue = button.getElement().getPropertyRaw("disabled");
         if (rawValue instanceof Boolean) {
             // convert the boolean value to a String to force update the
             // property value. Otherwise since the provided value is the same as
             // the current one the update don't do anything.
             button.getElement().setProperty("disabled",
-                    String.valueOf(button.isDisabledBoolean()));
+                    String.valueOf(disabled));
         } else {
-            button.setDisabled(button.isDisabledBoolean());
+            button.setDisabled(disabled);
         }
     }
 
