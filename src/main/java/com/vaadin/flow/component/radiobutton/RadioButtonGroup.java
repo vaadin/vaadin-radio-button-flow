@@ -15,6 +15,11 @@
  */
 package com.vaadin.flow.component.radiobutton;
 
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.data.binder.HasDataProvider;
 import com.vaadin.flow.data.binder.HasItemsAndComponents;
@@ -24,16 +29,18 @@ import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.data.selection.SingleSelect;
+import com.vaadin.flow.dom.PropertyChangeEvent;
 import com.vaadin.flow.function.SerializablePredicate;
-
-import java.util.Objects;
 
 /**
  * A single select component using radio buttons as options.
  * <p>
- * This is a server side Java integration for the {@code vaadin-radio-group} element.
+ * This is a server side Java integration for the {@code vaadin-radio-group}
+ * element.
  * <p>
- * Usage examples, see <a href="https://vaadin.com/components/vaadin-radio-button/java-examples">the demo in vaadin.com</a>.
+ * Usage examples, see
+ * <a href="https://vaadin.com/components/vaadin-radio-button/java-examples">the
+ * demo in vaadin.com</a>.
  *
  * @author Vaadin Ltd.
  */
@@ -71,6 +78,9 @@ public class RadioButtonGroup<T>
     public RadioButtonGroup() {
         super(null, null, String.class, RadioButtonGroup::presentationToModel,
                 RadioButtonGroup::modelToPresentation);
+
+        getElement().addPropertyChangeListener("value",
+                this::validateSelectionEnabledState);
     }
 
     @Override
@@ -181,11 +191,14 @@ public class RadioButtonGroup<T>
         return button;
     }
 
-    @SuppressWarnings("unchecked")
     private void refreshButtons() {
-        getChildren().filter(RadioButton.class::isInstance)
-                .map(child -> (RadioButton<T>) child)
-                .forEach(this::updateButton);
+        getRadioButtons().forEach(this::updateButton);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Stream<RadioButton<T>> getRadioButtons() {
+        return getChildren().filter(RadioButton.class::isInstance)
+                .map(child -> (RadioButton<T>) child);
     }
 
     private void updateButton(RadioButton<T> button) {
@@ -194,5 +207,21 @@ public class RadioButtonGroup<T>
         button.setDisabled(disabled);
         button.removeAll();
         button.add(getItemRenderer().createComponent(button.getItem()));
+    }
+
+    private void validateSelectionEnabledState(PropertyChangeEvent event) {
+        if (!hasValidValue()) {
+            Serializable oldKey = event.getOldValue();
+            T oldValue = keyMapper
+                    .get(oldKey == null ? null : oldKey.toString());
+            // return the value back on the client side
+            getElement().setProperty("value", keyMapper.key(oldValue));
+            // Now make sure that the button is still in the correct state
+            Optional<RadioButton<T>> selectedButton = getRadioButtons()
+                    .filter(button -> button.getItem() == event.getValue())
+                    .findFirst();
+            selectedButton.ifPresent(
+                    button -> button.setDisabled(button.isDisabledBoolean()));
+        }
     }
 }
