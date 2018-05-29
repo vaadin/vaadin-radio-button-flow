@@ -215,9 +215,7 @@ public class RadioButtonGroup<T>
 
     private void validateSelectionEnabledState(PropertyChangeEvent event) {
         if (!hasValidValue()) {
-            Serializable oldKey = event.getOldValue();
-            T oldValue = keyMapper
-                    .get(oldKey == null ? null : oldKey.toString());
+            T oldValue = getValue(event.getOldValue());
             // return the value back on the client side
             try {
                 validationRegistration.remove();
@@ -226,12 +224,32 @@ public class RadioButtonGroup<T>
                 registerValidation();
             }
             // Now make sure that the button is still in the correct state
-            Optional<RadioButton<T>> selectedButton = getRadioButtons()
-                    .filter(button -> button.getItem() == event.getValue())
+            Optional<RadioButton<T>> selectedButton = getRadioButtons().filter(
+                    button -> button.getItem() == getValue(event.getValue()))
                     .findFirst();
-            selectedButton.ifPresent(
-                    button -> button.setDisabled(button.isDisabledBoolean()));
+
+            selectedButton.ifPresent(this::resetEnabledState);
         }
+    }
+
+    private void resetEnabledState(RadioButton<T> button) {
+        Serializable rawValue = button.getElement().getPropertyRaw("disabled");
+        if (rawValue instanceof Boolean) {
+            // convert the boolean value to a String to force update the
+            // property value. Otherwise since the provided value is the same as
+            // the current one the update don't do anything.
+            button.getElement().setProperty("disabled",
+                    String.valueOf(button.isDisabledBoolean()));
+        } else {
+            button.setDisabled(button.isDisabledBoolean());
+        }
+    }
+
+    private T getValue(Serializable key) {
+        if (key == null) {
+            return null;
+        }
+        return keyMapper.get(key.toString());
     }
 
     private void registerValidation() {
