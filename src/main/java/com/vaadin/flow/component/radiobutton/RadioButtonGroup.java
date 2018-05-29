@@ -239,7 +239,7 @@ public class RadioButtonGroup<T>
             // property value. Otherwise since the provided value is the same as
             // the current one the update don't do anything.
             button.getElement().setProperty("disabled",
-                    String.valueOf(disabled));
+                    disabled ? Boolean.TRUE.toString() : null);
         } else {
             button.setDisabled(disabled);
         }
