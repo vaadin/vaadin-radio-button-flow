@@ -30,7 +30,9 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.data.selection.SingleSelect;
 import com.vaadin.flow.dom.PropertyChangeEvent;
+import com.vaadin.flow.dom.PropertyChangeListener;
 import com.vaadin.flow.function.SerializablePredicate;
+import com.vaadin.flow.shared.Registration;
 
 /**
  * A single select component using radio buttons as options.
@@ -59,6 +61,9 @@ public class RadioButtonGroup<T>
 
     private boolean isReadOnly;
 
+    private final PropertyChangeListener validationListener = this::validateSelectionEnabledState;
+    private Registration validationRegistration;
+
     private static <T> T presentationToModel(
             RadioButtonGroup<T> radioButtonGroup, String presentation) {
         if (!radioButtonGroup.keyMapper.containsKey(presentation)) {
@@ -79,8 +84,7 @@ public class RadioButtonGroup<T>
         super(null, null, String.class, RadioButtonGroup::presentationToModel,
                 RadioButtonGroup::modelToPresentation);
 
-        getElement().addPropertyChangeListener("value",
-                this::validateSelectionEnabledState);
+        registerValidation();
     }
 
     @Override
@@ -215,7 +219,12 @@ public class RadioButtonGroup<T>
             T oldValue = keyMapper
                     .get(oldKey == null ? null : oldKey.toString());
             // return the value back on the client side
-            getElement().setProperty("value", keyMapper.key(oldValue));
+            try {
+                validationRegistration.remove();
+                getElement().setProperty("value", keyMapper.key(oldValue));
+            } finally {
+                registerValidation();
+            }
             // Now make sure that the button is still in the correct state
             Optional<RadioButton<T>> selectedButton = getRadioButtons()
                     .filter(button -> button.getItem() == event.getValue())
@@ -223,5 +232,13 @@ public class RadioButtonGroup<T>
             selectedButton.ifPresent(
                     button -> button.setDisabled(button.isDisabledBoolean()));
         }
+    }
+
+    private void registerValidation() {
+        if (validationRegistration != null) {
+            validationRegistration.remove();
+        }
+        validationRegistration = getElement().addPropertyChangeListener("value",
+                validationListener);
     }
 }
