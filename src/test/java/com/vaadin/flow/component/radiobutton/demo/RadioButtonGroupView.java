@@ -80,7 +80,7 @@ public class RadioButtonGroupView extends DemoView {
         group.setItems("foo", "bar", "baz");
         group.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
         // end-source-example
-        
+
         addVariantsDemo(() -> {
             return group;
         }, GeneratedVaadinRadioGroup::addThemeVariants,
