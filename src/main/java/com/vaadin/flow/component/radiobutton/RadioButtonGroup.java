@@ -211,6 +211,11 @@ public class RadioButtonGroup<T>
         super.setErrorMessage(errorMessage);
     }
 
+    /**
+     * Gets the current error message from the radio button group.
+     * 
+     * @return the current error message
+     */
     public String getErrorMessage() {
         return super.getErrorMessageString();
     }
