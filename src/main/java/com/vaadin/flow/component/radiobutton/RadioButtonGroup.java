@@ -199,6 +199,9 @@ public class RadioButtonGroup<T>
 
     /**
      * Specifies that the user must select a value
+     * <p>
+     * This property is not synchronized automatically from the client side, so
+     * the returned value may not be the same as in client side.
      * 
      * @return the {@code required} property from the webcomponent
      */
