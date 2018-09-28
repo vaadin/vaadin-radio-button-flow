@@ -63,6 +63,7 @@ public class RadioButtonGroup<T>
 
     private final PropertyChangeListener validationListener = this::validateSelectionEnabledState;
     private Registration validationRegistration;
+    private Registration dataProviderListenerRegistration;
 
     private static <T> T presentationToModel(
             RadioButtonGroup<T> radioButtonGroup, String presentation) {
@@ -97,6 +98,12 @@ public class RadioButtonGroup<T>
     public void setDataProvider(DataProvider<T, ?> dataProvider) {
         this.dataProvider = dataProvider;
         reset();
+
+        if (dataProviderListenerRegistration != null) {
+            dataProviderListenerRegistration.remove();
+        }
+        dataProviderListenerRegistration = dataProvider
+                .addDataProviderListener(event -> reset());
     }
 
     /**
