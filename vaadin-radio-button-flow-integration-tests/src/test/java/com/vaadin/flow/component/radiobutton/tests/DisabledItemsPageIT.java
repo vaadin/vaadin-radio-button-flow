@@ -17,30 +17,27 @@ package com.vaadin.flow.component.radiobutton.tests;
 
 import java.util.List;
 
+import com.vaadin.flow.testutil.AbstractComponentIT;
+import com.vaadin.flow.testutil.TestPath;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.vaadin.flow.demo.ComponentDemoTest;
-
-public class DisabledItemsPageIT extends ComponentDemoTest {
-
-    @Override
-    protected String getTestPath() {
-        return "/disabled-items";
-    }
+@TestPath("disabled-items")
+public class DisabledItemsPageIT extends AbstractComponentIT {
 
     @Test
     public void set_items_to_disabled_group_should_be_disabled() {
-        WebElement group = layout.findElement(By.id("button-group"));
+        open();
+        WebElement group = findElement(By.id("button-group"));
 
         List<WebElement> buttons = group
                 .findElements(By.tagName("vaadin-radio-button"));
         Assert.assertTrue("No buttons should be present", buttons.isEmpty());
 
         // Click button to add items
-        layout.findElement(By.id("add-button")).click();
+        findElement(By.id("add-button")).click();
 
         waitForElementPresent(By.tagName("vaadin-radio-button"));
         buttons = group.findElements(By.tagName("vaadin-radio-button"));
