@@ -11,7 +11,12 @@
     </parent>
 
     <artifactId>vaadin-radio-button-flow-integration-tests</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <name>Vaadin Radio Button Flow Integration Tests</name>
+    <packaging>war</packaging>
+
+    <properties>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -46,7 +51,6 @@
             <groupId>com.vaadin</groupId>
             <artifactId>flow-data</artifactId>
             <version>${flow.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
