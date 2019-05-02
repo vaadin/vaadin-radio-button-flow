@@ -10,7 +10,7 @@
         <version>2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>vaadin-radio-button-flow-testbench</artifactId>
+    <artifactId>vaadin-radio-button-testbench</artifactId>
     <name>Vaadin Radio Button Flow Testbench</name>
     <packaging>jar</packaging>
 
