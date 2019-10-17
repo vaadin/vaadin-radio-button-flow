@@ -15,7 +15,7 @@
  *
  */
 
-package com.vaadin.flow.component.radiobutton.demo;
+package com.vaadin.flow.component.radiobutton.tests;
 
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
@@ -30,8 +30,15 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.IconRenderer;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.demo.DemoView;
+import com.vaadin.flow.router.Route;
 
-public class RadioButtonGroupViewDemoPage extends DemoView {
+/**
+ * View for {@link RadioButtonGroup} demo.
+ *
+ * @author Vaadin Ltd
+ */
+@Route("vaadin-radio-button-group-test-demo")
+public class RadioButtonGroupDemoPage extends DemoView {
 
     public static class Person {
 
@@ -54,6 +61,11 @@ public class RadioButtonGroupViewDemoPage extends DemoView {
         public int getId() {
             return id;
         }
+
+    }
+
+    @Override
+    public void populateSources() {
 
     }
 
@@ -99,9 +111,8 @@ public class RadioButtonGroupViewDemoPage extends DemoView {
         group.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
         // end-source-example
 
-        addVariantsDemo(() -> {
-                    return group;
-                }, GeneratedVaadinRadioGroup::addThemeVariants,
+
+        addVariantsDemo(() -> group, GeneratedVaadinRadioGroup::addThemeVariants,
                 GeneratedVaadinRadioGroup::removeThemeVariants,
                 RadioGroupVariant::getVariantName,
                 RadioGroupVariant.LUMO_VERTICAL);
