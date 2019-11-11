@@ -224,8 +224,8 @@ public class RadioButtonGroupView extends DemoView {
 
             Div descr = new Div();
             descr.setText(department.getDescription());
-            VerticalLayout verticalLayout = new VerticalLayout(name, descr);
-            return verticalLayout;
+            Div div = new Div(name, descr);
+            return div;
         }));
         // end-source-example
 
