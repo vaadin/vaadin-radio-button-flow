@@ -31,6 +31,7 @@ import com.vaadin.flow.component.radiobutton.demo.data.DepartmentData;
 import com.vaadin.flow.component.radiobutton.demo.entity.Department;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
 
@@ -42,9 +43,8 @@ public class RadioButtonGroupView extends DemoView {
     @Override
     protected void initView() {
         basicDemo(); // Basic Usage
-        disabledAndDisabledItem();
-        readonlyRadioButton();
         entityList();
+        disabledAndDisabledItem();
         valueChangeEvent();
         configurationForReqired(); // Validation
         customOptions(); // Presentation
@@ -64,6 +64,20 @@ public class RadioButtonGroupView extends DemoView {
         // end-source-example
 
         addCard("Basic usage", radioGroup);
+    }
+
+    private void entityList() {
+        // begin-source-example
+        // source-example-heading: Entity list
+        RadioButtonGroup<Department> radioGroup = new RadioButtonGroup<>();
+        radioGroup.setLabel("Department");
+        List<Department> departmentList = getDepartments();
+        radioGroup.setItems(departmentList);
+        radioGroup.setRenderer(new TextRenderer<>(Department::getName));
+        radioGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
+        // end-source-example
+
+        addCard("Entity list", radioGroup);
     }
 
     private void disabledAndDisabledItem() {
@@ -89,36 +103,10 @@ public class RadioButtonGroupView extends DemoView {
         addCard("Disabled state", verticalLayout);
     }
 
-    private void readonlyRadioButton() {
-        // begin-source-example
-        // source-example-heading: Read-only
-        RadioButtonGroup<String> radioGroup = new RadioButtonGroup<>();
-        radioGroup.setItems("Option one", "Option two", "Option three");
-        radioGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
-        radioGroup.setValue("Option one");
-        radioGroup.setReadOnly(true);
-        // end-source-example
-
-        addCard("Read-only", radioGroup);
-    }
-
     private List<Department> getDepartments() {
 
         DepartmentData departmentData = new DepartmentData();
         return departmentData.getDepartments();
-    }
-
-    private void entityList() {
-        // begin-source-example
-        // source-example-heading: Entity list
-        RadioButtonGroup<Department> radioGroup = new RadioButtonGroup<>();
-        radioGroup.setLabel("Department");
-        List<Department> departmentList = getDepartments();
-        radioGroup.setItems(departmentList);
-        radioGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
-        // end-source-example
-
-        addCard("Entity list", radioGroup);
     }
 
     private void valueChangeEvent() {
@@ -150,12 +138,13 @@ public class RadioButtonGroupView extends DemoView {
         Binder<Employee> binder = new Binder<>();
 
         RadioButtonGroup<String> radioGroup = new RadioButtonGroup<>();
-        radioGroup.setLabel("Department");
+        radioGroup.setLabel("Employee title");
         radioGroup.setItems("Account Manager", "Designer", "Marketing Manager",
                 "Developer");
         radioGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
 
-        binder.forField(radioGroup).asRequired("Please choose a department")
+        binder.forField(radioGroup)
+                .asRequired("Please choose an employee title")
                 .bind(Employee::getTitle, Employee::setTitle);
 
         Button button = new Button("Submit", event -> {
@@ -176,31 +165,31 @@ public class RadioButtonGroupView extends DemoView {
     private void customOptions() {
         // begin-source-example
         // source-example-heading: Customizing radio button label
-        RadioButtonGroup<Information> radioButton = new RadioButtonGroup<>();
-        radioButton.setLabel("User");
+        RadioButtonGroup<Employee> radioButton = new RadioButtonGroup<>();
+        radioButton.setLabel("Employee");
         radioButton.setItems(
-                new Information("Gabriella",
+                new Employee("Gabriella",
                         "https://randomuser.me/api/portraits/women/43.jpg"),
-                new Information("Rudi",
+                new Employee("Rudi",
                         "https://randomuser.me/api/portraits/men/77.jpg"),
-                new Information("Hamsa",
+                new Employee("Hamsa",
                         "https://randomuser.me/api/portraits/men/35.jpg"),
-                new Information("Jacob",
+                new Employee("Jacob",
                         "https://randomuser.me/api/portraits/men/76.jpg"));
         radioButton.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
 
-        radioButton.setRenderer(new ComponentRenderer<>(information -> {
-            Div text = new Div();
-            text.setText(information.getText());
+        radioButton.setRenderer(new ComponentRenderer<>(employee -> {
+            Div title = new Div();
+            title.setText(employee.getTitle());
 
             Image image = new Image();
             image.setWidth("21px");
             image.setHeight("21px");
-            image.setSrc(information.getImage());
+            image.setSrc(employee.getImage());
 
             FlexLayout wrapper = new FlexLayout();
-            text.getStyle().set("margin-left", "0.5em");
-            wrapper.add(image, text);
+            title.getStyle().set("margin-left", "0.5em");
+            wrapper.add(image, title);
             return wrapper;
         }));
         // end-source-example
@@ -222,9 +211,9 @@ public class RadioButtonGroupView extends DemoView {
             name.getStyle().set("font-weight", "bold");
             name.setText(department.getName());
 
-            Div descr = new Div();
-            descr.setText(department.getDescription());
-            Div div = new Div(name, descr);
+            Div description = new Div();
+            description.setText(department.getDescription());
+            Div div = new Div(name, description);
             return div;
         }));
         // end-source-example
@@ -269,26 +258,17 @@ public class RadioButtonGroupView extends DemoView {
         addCard("Styling", "Styling references", p1, p2);
     }
 
-    private static class Information {
-        private String text;
-        private String image;
-
-        private Information(String text, String image) {
-            this.text = text;
-            this.image = image;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public String getImage() {
-            return image;
-        }
-    }
-
     private static class Employee {
         private String title;
+        private String image;
+
+        public Employee() {
+        }
+
+        private Employee(String title, String image) {
+            this.title = title;
+            this.image = image;
+        }
 
         public String getTitle() {
             return title;
@@ -296,6 +276,14 @@ public class RadioButtonGroupView extends DemoView {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
         }
     }
 }
