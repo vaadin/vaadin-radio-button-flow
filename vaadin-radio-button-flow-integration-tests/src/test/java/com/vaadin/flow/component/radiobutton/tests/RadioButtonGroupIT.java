@@ -325,8 +325,8 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         Assert.assertEquals("Label Attribute should present with correct text",
                 group.getAttribute("label"), "Group label");
 
-        TestBenchElement errorMessage = group.$(TestBenchElement.class)
-                .id("vaadin-radio-group-error-1");
+        TestBenchElement errorMessage = group.$(TestBenchElement.class).
+                attribute("part", "error-message").first();
         verifyGroupValid(group, errorMessage);
 
         layout.findElement(By.id("group-with-label-button")).click();
