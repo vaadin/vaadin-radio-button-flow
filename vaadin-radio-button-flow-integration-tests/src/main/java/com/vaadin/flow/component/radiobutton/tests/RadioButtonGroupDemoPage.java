@@ -92,6 +92,7 @@ public class RadioButtonGroupDemoPage extends DemoView {
         RadioButtonGroup<String> group = new RadioButtonGroup<>();
         group.setItems("foo", "bar", "baz");
         group.setLabel("Group label");
+        //group.setInvalid(true);
         group.setErrorMessage("Field has been set to invalid from server side");
         NativeButton button = new NativeButton("Switch validity state",
                 event -> group.setInvalid(!group.isInvalid()));
