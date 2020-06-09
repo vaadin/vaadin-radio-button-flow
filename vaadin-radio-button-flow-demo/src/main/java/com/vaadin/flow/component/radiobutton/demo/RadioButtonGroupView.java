@@ -20,6 +20,7 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
@@ -43,6 +44,7 @@ public class RadioButtonGroupView extends DemoView {
     @Override
     protected void initView() {
         basicDemo(); // Basic Usage
+        helperDemo();
         entityList();
         disabledAndDisabledItem();
         valueChangeEvent();
@@ -67,6 +69,27 @@ public class RadioButtonGroupView extends DemoView {
 
         addCard("Basic usage", radioGroup);
     }
+
+    private void helperDemo() {
+        // begin-source-example
+        // source-example-heading: Helper text
+        RadioButtonGroup<String> radioGroup = new RadioButtonGroup<>();
+        radioGroup.setLabel("Label");
+        radioGroup.setItems("Option one", "Option two", "Option three");
+        radioGroup.setHelperText("Helper text");
+
+        RadioButtonGroup<String> radioGroupWithHelperSlotted = new RadioButtonGroup<>();
+        radioGroupWithHelperSlotted.setLabel("Label");
+        radioGroupWithHelperSlotted.setItems("Option one", "Option two", "Option three");
+        radioGroupWithHelperSlotted.setHelperComponent(new Span("Helper text"));;
+
+        add(radioGroup, radioGroupWithHelperSlotted);
+        // end-source-example
+
+        addCard("Helper text", radioGroup, radioGroupWithHelperSlotted);
+    }
+
+    
 
     private void entityList() {
         // begin-source-example
