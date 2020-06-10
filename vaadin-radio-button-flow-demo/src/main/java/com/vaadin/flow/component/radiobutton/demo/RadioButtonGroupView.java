@@ -52,6 +52,7 @@ public class RadioButtonGroupView extends DemoView {
         customOptions(); // Presentation
         usingTemplateRenderer();
         themeVariantsHorizontal();// Theme Variants
+        themeVariantsHelperText();
         styling(); // Styling
     }
 
@@ -276,6 +277,28 @@ public class RadioButtonGroupView extends DemoView {
         // end-source-example
 
         addCard("Theme variants", "Direction", horizontal, vertical);
+    }
+
+    private void themeVariantsHelperText() {
+        // begin-source-example
+        // source-example-heading: Helper text position
+        RadioButtonGroup<String> below = new RadioButtonGroup<>();
+        below.setLabel("Horizontal");
+        below.setItems("Option one", "Option two", "Option three");
+        below.setValue("Option one");
+        below.setHelperText("Helper text below");
+        
+        RadioButtonGroup<String> above = new RadioButtonGroup<>();
+        above.setLabel("Vertical");
+        above.setItems("Option one", "Option two", "Option three");
+        above.setValue("Option one");
+        above.setHelperText("Helper text above");
+        above.addThemeVariants(RadioGroupVariant.LUMO_HELPER_ABOVE_FIELD);
+
+        add(below, above);
+        // end-source-example
+
+        addCard("Theme variants", "Helper text position", below, above);
     }
 
     private void styling() {
