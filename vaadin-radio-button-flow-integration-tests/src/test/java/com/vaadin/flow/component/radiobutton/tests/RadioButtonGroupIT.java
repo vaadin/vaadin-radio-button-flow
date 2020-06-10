@@ -25,6 +25,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import com.vaadin.flow.component.radiobutton.testbench.RadioButtonGroupElement;
 import com.vaadin.flow.demo.ComponentDemoTest;
 import com.vaadin.testbench.TestBenchElement;
 
@@ -33,6 +34,12 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
     @Override
     protected String getTestPath() {
         return "/vaadin-radio-button-group-test-demo";
+    }
+
+    @Override
+    public void setup() throws Exception {
+        super.setup();
+        System.setProperty("webdriver.chrome.driver", "/User/diegocardoso/Tools/chromedriver");
     }
 
     @Test
@@ -339,6 +346,37 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
 
         executeScript("arguments[0].value=2;", group);
         verifyGroupValid(group, errorMessage);
+    }
+
+    @Test
+    public void verifyHelper() {
+        RadioButtonGroupElement groupWithHelperText = $(RadioButtonGroupElement.class)
+                .id("group-with-helper-text");
+        Assert.assertEquals("helperText", groupWithHelperText.getHelperText());
+
+        RadioButtonGroupElement groupWithHelperComponent = $(RadioButtonGroupElement.class)
+                .id("group-with-helper-component");
+        WebElement helperComponent = groupWithHelperComponent.getHelperComponent();
+        Assert.assertEquals("helperText", helperComponent.getText());
+        Assert.assertEquals("helper-component", helperComponent.getAttribute("id"));
+    }
+
+    @Test
+    public void clearHelper() {
+        RadioButtonGroupElement groupWithHelperText = $(RadioButtonGroupElement.class)
+                .id("group-with-helper-text");
+        Assert.assertEquals("helperText", groupWithHelperText.getHelperText());
+
+        $(TestBenchElement.class).id("clear-helper-text-button").click();
+        Assert.assertEquals("", groupWithHelperText.getHelperText());
+
+        RadioButtonGroupElement groupWithHelperComponent = $(RadioButtonGroupElement.class)
+                .id("group-with-helper-component");
+        WebElement helperComponent = groupWithHelperComponent.getHelperComponent();
+        Assert.assertEquals("helper-component", helperComponent.getAttribute("id"));
+        
+        $(TestBenchElement.class).id("clear-helper-component-button").click();
+        Assert.assertNull(groupWithHelperComponent.getHelperComponent());
     }
 
     private void verifyGroupInvalid(TestBenchElement group,
