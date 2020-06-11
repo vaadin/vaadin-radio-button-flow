@@ -357,7 +357,7 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         RadioButtonGroupElement groupWithHelperComponent = $(RadioButtonGroupElement.class)
                 .id("group-with-helper-component");
         WebElement helperComponent = groupWithHelperComponent.getHelperComponent();
-        Assert.assertEquals("helperText", helperComponent.getText());
+        Assert.assertEquals("helperComponent", helperComponent.getText());
         Assert.assertEquals("helper-component", helperComponent.getAttribute("id"));
     }
 

@@ -116,7 +116,7 @@ public class RadioButtonGroupDemoPage extends DemoView {
         RadioButtonGroup<String> groupWitHelperComponent = new RadioButtonGroup<>();
         groupWitHelperComponent.setId("group-with-helper-component");
         groupWitHelperComponent.setItems("foo", "bar", "baz");
-        Span helperComponent = new Span("helperText");
+        Span helperComponent = new Span("helperComponent");
         helperComponent.setId("helper-component");
         groupWitHelperComponent.setHelperComponent(helperComponent);
         // end-source-example
