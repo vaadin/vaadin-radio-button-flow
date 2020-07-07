@@ -74,20 +74,20 @@ public class RadioButtonGroupView extends DemoView {
     private void helperDemo() {
         // begin-source-example
         // source-example-heading: Helper text
-        RadioButtonGroup<String> radioGroup = new RadioButtonGroup<>();
-        radioGroup.setLabel("Label");
-        radioGroup.setItems("Option one", "Option two", "Option three");
-        radioGroup.setHelperText("Helper text");
+        RadioButtonGroup<String> radioGroupHelperText = new RadioButtonGroup<>();
+        radioGroupHelperText.setLabel("Label");
+        radioGroupHelperText.setItems("Option one", "Option two", "Option three");
+        radioGroupHelperText.setHelperText("Helper text");
 
-        RadioButtonGroup<String> radioGroupWithHelperSlotted = new RadioButtonGroup<>();
-        radioGroupWithHelperSlotted.setLabel("Label");
-        radioGroupWithHelperSlotted.setItems("Option one", "Option two", "Option three");
-        radioGroupWithHelperSlotted.setHelperComponent(new Span("Helper text"));;
+        RadioButtonGroup<String> radioGroupHelperComponent = new RadioButtonGroup<>();
+        radioGroupHelperComponent.setLabel("Label");
+        radioGroupHelperComponent.setItems("Option one", "Option two", "Option three");
+        radioGroupHelperComponent.setHelperComponent(new Span("Helper text"));;
 
-        add(radioGroup, radioGroupWithHelperSlotted);
+        add(radioGroupHelperText, radioGroupHelperComponent);
         // end-source-example
 
-        addCard("Helper text", radioGroup, radioGroupWithHelperSlotted);
+        addCard("Helper text", radioGroupHelperText, radioGroupHelperComponent);
     }
 
     
