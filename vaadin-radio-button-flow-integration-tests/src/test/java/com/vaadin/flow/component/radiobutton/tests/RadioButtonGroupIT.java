@@ -36,12 +36,6 @@ public class RadioButtonGroupIT extends ComponentDemoTest {
         return "/vaadin-radio-button-group-test-demo";
     }
 
-    @Override
-    public void setup() throws Exception {
-        super.setup();
-        System.setProperty("webdriver.chrome.driver", "/User/diegocardoso/Tools/chromedriver");
-    }
-
     @Test
     public void valueChange() {
         WebElement valueDiv = layout.findElement(By.id("button-group-value"));
