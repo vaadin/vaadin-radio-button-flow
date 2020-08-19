@@ -283,13 +283,13 @@ public class RadioButtonGroupView extends DemoView {
         // begin-source-example
         // source-example-heading: Helper text position
         RadioButtonGroup<String> below = new RadioButtonGroup<>();
-        below.setLabel("Horizontal");
+        below.setLabel("Label");
         below.setItems("Option one", "Option two", "Option three");
         below.setValue("Option one");
         below.setHelperText("Helper text below");
         
         RadioButtonGroup<String> above = new RadioButtonGroup<>();
-        above.setLabel("Vertical");
+        above.setLabel("Label");
         above.setItems("Option one", "Option two", "Option three");
         above.setValue("Option one");
         above.setHelperText("Helper text above");
