@@ -108,7 +108,7 @@ public class RadioButtonGroup<T>
         setupDataProviderListener(dataProvider);
     }
 
-    private void setupDataProviderListener(DataProvider<ITEM, ?> dataProvider) {
+    private void setupDataProviderListener(DataProvider<T, ?> dataProvider) {
         if (dataProviderListenerRegistration != null) {
             dataProviderListenerRegistration.remove();
         }
