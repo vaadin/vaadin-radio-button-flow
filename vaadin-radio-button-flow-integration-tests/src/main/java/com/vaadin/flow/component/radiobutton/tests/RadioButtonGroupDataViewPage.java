@@ -18,6 +18,11 @@ import com.vaadin.flow.router.Route;
 @Route("radio-Button-group-data-view")
 public class RadioButtonGroupDataViewPage extends Div {
 
+    private static final String FIRST = "first";
+    private static final String SECOND = "second";
+    private static final String CHANGED_1 = "changed-1";
+    private static final String CHANGED_2 = "changed-2";
+
     public RadioButtonGroupDataViewPage() {
         createGenericDataViewRadioButtonGroup();
         createListDataViewRadioButtonGroup();
@@ -26,8 +31,8 @@ public class RadioButtonGroupDataViewPage extends Div {
     }
 
     private void createGenericDataViewRadioButtonGroup() {
-        Item first = new Item(1L, "first");
-        Item second = new Item(2L, "second");
+        Item first = new Item(1L, FIRST);
+        Item second = new Item(2L, SECOND);
 
         List<Item> items = new ArrayList<>(Arrays.asList(first, second));
         GenericDataProvider dataProvider = new GenericDataProvider(items);
@@ -41,8 +46,8 @@ public class RadioButtonGroupDataViewPage extends Div {
 
         NativeButton dataViewUpdateButton = new NativeButton("Update",
                 click -> {
-                    first.setValue("changed-1");
-                    second.setValue("changed-2");
+                    first.setValue(CHANGED_1);
+                    second.setValue(CHANGED_2);
 
                     dataView.refreshItem(new Item(1L));
                 });
@@ -52,8 +57,8 @@ public class RadioButtonGroupDataViewPage extends Div {
     }
 
     private void createListDataViewRadioButtonGroup() {
-        Item first = new Item(1L, "first");
-        Item second = new Item(2L, "second");
+        Item first = new Item(1L, FIRST);
+        Item second = new Item(2L, SECOND);
 
         RadioButtonGroup<Item> rgbForListDataView = new RadioButtonGroup<>();
         rgbForListDataView.setId("rgbForListDataView");
@@ -64,8 +69,8 @@ public class RadioButtonGroupDataViewPage extends Div {
 
         NativeButton dataViewUpdateButton = new NativeButton("Update",
                 click -> {
-                    first.setValue("changed-1");
-                    second.setValue("changed-2");
+                    first.setValue(CHANGED_1);
+                    second.setValue(CHANGED_2);
 
                     dataView.refreshItem(new Item(1L));
                 });
@@ -75,7 +80,7 @@ public class RadioButtonGroupDataViewPage extends Div {
     }
 
     private void createAddItemByDataViewRadioButtonGroup() {
-        Item first = new Item(1L, "first");
+        Item first = new Item(1L, FIRST);
         List<Item> items = new ArrayList<>();
         items.add(first);
 
@@ -86,7 +91,7 @@ public class RadioButtonGroupDataViewPage extends Div {
                 .setItems(items);
 
         NativeButton dataViewUpdateButton = new NativeButton("Add", click -> {
-            Item second = new Item(1L, "second");
+            Item second = new Item(1L, SECOND);
             dataView.addItem(second);
         });
         dataViewUpdateButton.setId("addBtnLstDv");
@@ -100,14 +105,14 @@ public class RadioButtonGroupDataViewPage extends Div {
         RadioButtonGroupListDataView<Integer> numbersDataView = numbers
                 .setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-        NativeButton filterOdds = new NativeButton("Filter Odds", click -> {
-            numbersDataView.setFilter(i -> i % 2 == 0);
-        });
+        NativeButton filterOdds = new NativeButton("Filter Odds", click ->
+            numbersDataView.setFilter(i -> i % 2 == 0)
+        );
         filterOdds.setId("filterOdds");
 
-        NativeButton noFilter = new NativeButton("No Filter", click -> {
-            numbersDataView.removeFilters();
-        });
+        NativeButton noFilter = new NativeButton("No Filter", click ->
+            numbersDataView.removeFilters()
+        );
         noFilter.setId("noFilter");
 
         add(numbers, filterOdds, noFilter);
@@ -115,7 +120,7 @@ public class RadioButtonGroupDataViewPage extends Div {
 
     private static class GenericDataProvider
             extends AbstractDataProvider<Item, Void> {
-        private final List<Item> items;
+        private transient final List<Item> items;
 
         public GenericDataProvider(List<Item> items) {
             this.items = items;

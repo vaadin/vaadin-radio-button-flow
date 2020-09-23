@@ -43,6 +43,8 @@ import com.vaadin.flow.router.Route;
 @Route("vaadin-radio-button")
 public class RadioButtonGroupView extends DemoView {
 
+    private static final String DATA_VIEW = "Data View";
+
     @Override
     protected void initView() {
         basicDemo(); // Basic Usage
@@ -265,7 +267,7 @@ public class RadioButtonGroupView extends DemoView {
                 });
         // end-source-example
 
-        addCard("Data View", "Refresh Items", radioButtonGroup,
+        addCard(DATA_VIEW, "Refresh Items", radioButtonGroup,
                 updateButton);
     }
 
@@ -287,7 +289,7 @@ public class RadioButtonGroupView extends DemoView {
         // end-source-example
 
         HorizontalLayout hLayout = new HorizontalLayout(radioButtonGroup, addButton);
-        addCard("Data View", "Add Item", hLayout);
+        addCard(DATA_VIEW, "Add Item", hLayout);
     }
 
     private void dataViewFiltering() {
@@ -317,7 +319,7 @@ public class RadioButtonGroupView extends DemoView {
         });
         // end-source-example
 
-        addCard("Data View", "Filtering Items", oddEven, numbers);
+        addCard(DATA_VIEW, "Filtering Items", oddEven, numbers);
     }
 
     private void styling() {
