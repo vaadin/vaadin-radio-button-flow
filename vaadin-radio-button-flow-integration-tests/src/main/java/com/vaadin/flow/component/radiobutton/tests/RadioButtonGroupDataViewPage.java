@@ -120,7 +120,7 @@ public class RadioButtonGroupDataViewPage extends Div {
 
     private static class GenericDataProvider
             extends AbstractDataProvider<Item, Void> {
-        private transient final List<Item> items;
+        private final transient List<Item> items;
 
         public GenericDataProvider(List<Item> items) {
             this.items = items;
