@@ -159,7 +159,7 @@ public class RadioButtonGroup<T>
     }
 
     /**
-     * Gets the list data view for the radioButton group. This data view should
+     * Gets the list data view for the RadioButtonGroup. This data view should
      * only be used when the items are in-memory and set with:
      * <ul>
      * <li>{@link #setItems(Collection)}</li>
@@ -169,7 +169,7 @@ public class RadioButtonGroup<T>
      * If the items are not in-memory an exception is thrown.
      *
      * @return the list data view that provides access to the data bound to the
-     *         radioButton group
+     *         RadioButtonGroup
      */
     @Override
     public RadioButtonGroupListDataView<T> getListDataView() {
@@ -177,7 +177,7 @@ public class RadioButtonGroup<T>
     }
 
     /**
-     * Gets the generic data view for the radioButton group. This data view should
+     * Gets the generic data view for the RadioButtonGroup. This data view should
      * only be used when {@link #getListDataView()} is not applicable for the
      * underlying data provider.
      *
@@ -313,7 +313,7 @@ public class RadioButtonGroup<T>
      * Specifies that the user must select in a value.
      * <p>
      * NOTE: The required indicator will not be visible, if there is no
-     * {@code label} property set for the radiobutton group.
+     * {@code label} property set for the RadioButtonGroup.
      *
      * @param required
      *            the boolean value to set

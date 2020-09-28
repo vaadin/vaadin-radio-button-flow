@@ -37,10 +37,10 @@ public class RadioButtonGroupDataViewPage extends Div {
         List<Item> items = new ArrayList<>(Arrays.asList(first, second));
         GenericDataProvider dataProvider = new GenericDataProvider(items);
 
-        RadioButtonGroup<Item> rgbForDataView = new RadioButtonGroup<>();
-        rgbForDataView.setId("rgbForDataView");
+        RadioButtonGroup<Item> rbgForDataView = new RadioButtonGroup<>();
+        rbgForDataView.setId("rbgForDataView");
 
-        RadioButtonGroupDataView<Item> dataView = rgbForDataView
+        RadioButtonGroupDataView<Item> dataView = rbgForDataView
                 .setItems(dataProvider);
         dataView.setIdentifierProvider(Item::getId);
 
@@ -53,17 +53,17 @@ public class RadioButtonGroupDataViewPage extends Div {
                 });
         dataViewUpdateButton.setId("updBtnGdpDv");
 
-        add(rgbForDataView, dataViewUpdateButton);
+        add(rbgForDataView, dataViewUpdateButton);
     }
 
     private void createListDataViewRadioButtonGroup() {
         Item first = new Item(1L, FIRST);
         Item second = new Item(2L, SECOND);
 
-        RadioButtonGroup<Item> rgbForListDataView = new RadioButtonGroup<>();
-        rgbForListDataView.setId("rgbForListDataView");
+        RadioButtonGroup<Item> rbgForListDataView = new RadioButtonGroup<>();
+        rbgForListDataView.setId("rbgForListDataView");
 
-        RadioButtonGroupListDataView<Item> dataView = rgbForListDataView
+        RadioButtonGroupListDataView<Item> dataView = rbgForListDataView
                 .setItems(first, second);
         dataView.setIdentifierProvider(Item::getId);
 
@@ -76,7 +76,7 @@ public class RadioButtonGroupDataViewPage extends Div {
                 });
         dataViewUpdateButton.setId("updBtnLstDv");
 
-        add(rgbForListDataView, dataViewUpdateButton);
+        add(rbgForListDataView, dataViewUpdateButton);
     }
 
     private void createAddItemByDataViewRadioButtonGroup() {
@@ -84,10 +84,10 @@ public class RadioButtonGroupDataViewPage extends Div {
         List<Item> items = new ArrayList<>();
         items.add(first);
 
-        RadioButtonGroup<Item> rgbForAddToDataView = new RadioButtonGroup<>();
-        rgbForAddToDataView.setId("rgbForAddToDataView");
+        RadioButtonGroup<Item> rbgForAddToDataView = new RadioButtonGroup<>();
+        rbgForAddToDataView.setId("rbgForAddToDataView");
 
-        RadioButtonGroupListDataView<Item> dataView = rgbForAddToDataView
+        RadioButtonGroupListDataView<Item> dataView = rbgForAddToDataView
                 .setItems(items);
 
         NativeButton dataViewUpdateButton = new NativeButton("Add", click -> {
@@ -96,12 +96,12 @@ public class RadioButtonGroupDataViewPage extends Div {
         });
         dataViewUpdateButton.setId("addBtnLstDv");
 
-        add(rgbForAddToDataView, dataViewUpdateButton);
+        add(rbgForAddToDataView, dataViewUpdateButton);
     }
 
     private void createFilterItemsByDataViewRadioButtonGroup() {
         RadioButtonGroup<Integer> numbers = new RadioButtonGroup<>();
-        numbers.setId("rgbForFilterDataView");
+        numbers.setId("rbgForFilterDataView");
         RadioButtonGroupListDataView<Integer> numbersDataView = numbers
                 .setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 

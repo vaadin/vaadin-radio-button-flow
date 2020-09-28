@@ -22,7 +22,7 @@ import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.function.SerializableSupplier;
 
 /**
- * Implementation of generic data view for radioButton group.
+ * Implementation of generic data view for RadioButtonGroup.
  *
  * @param <T>
  *            the item type

@@ -31,7 +31,7 @@ import com.vaadin.flow.function.SerializableSupplier;
 public class RadioButtonGroupListDataView<T> extends AbstractListDataView<T> {
 
     /**
-     * Creates a new in-memory data view for RadioButton Group Group and verifies the
+     * Creates a new in-memory data view for RadioButtonGroup and verifies the
      * passed data provider is compatible with this data view implementation.
      *
      * @param dataProviderSupplier

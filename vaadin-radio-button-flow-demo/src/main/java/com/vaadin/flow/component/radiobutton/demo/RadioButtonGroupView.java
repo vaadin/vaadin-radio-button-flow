@@ -252,23 +252,22 @@ public class RadioButtonGroupView extends DemoView {
         // source-example-heading: Refresh Items
         RadioButtonGroup<Employee> radioButtonGroup = new RadioButtonGroup<>();
         radioButtonGroup.setLabel("Assignable Employees: ");
-        Employee employee1 = new Employee("Employee One", null);
-        Employee employee2 = new Employee("Employee Two", null);
-        Employee employee3 = new Employee("Employee Three", null);
+        Employee employee1 = new Employee("Employee One");
+        Employee employee2 = new Employee("Employee Two");
+        Employee employee3 = new Employee("Employee Three");
         RadioButtonGroupListDataView<Employee> dataView = radioButtonGroup
                 .setItems(employee1, employee2, employee3);
         radioButtonGroup.setValue(employee3);
         radioButtonGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
 
-        Button updateButton = new Button("Update second employee's name!",
+        Button updateButton = new Button("Update second employee's name",
                 click -> {
                     employee2.setTitle("Employee 2");
                     dataView.refreshItem(employee2);
                 });
         // end-source-example
 
-        addCard(DATA_VIEW, "Refresh Items", radioButtonGroup,
-                updateButton);
+        addCard(DATA_VIEW, "Refresh Items", radioButtonGroup, updateButton);
     }
 
     private void dataViewAddItem() {
@@ -276,45 +275,51 @@ public class RadioButtonGroupView extends DemoView {
         // source-example-heading: Add Item
         RadioButtonGroup<Employee> radioButtonGroup = new RadioButtonGroup<>();
         radioButtonGroup.setLabel("Assignable Employees: ");
-        List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee("Employee 1", null));
         RadioButtonGroupListDataView<Employee> dataView = radioButtonGroup
-                .setItems(employeeList);
+                .setItems(getEmployeeList());
         radioButtonGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
-        AtomicInteger i = new AtomicInteger(1);
-        Button addButton = new Button("Add to Options!", click ->
-                dataView.addItem(new Employee("Employee " + (i.incrementAndGet()),
-                        null))
-        );
+        AtomicInteger employeeCounter = new AtomicInteger(1);
+        Button addButton = new Button("Add to Options",
+                click -> dataView.addItem(new Employee(
+                        "Employee " + (employeeCounter.incrementAndGet()))));
         // end-source-example
 
-        HorizontalLayout hLayout = new HorizontalLayout(radioButtonGroup, addButton);
-        addCard(DATA_VIEW, "Add Item", hLayout);
+        HorizontalLayout layout = new HorizontalLayout(radioButtonGroup,
+                addButton);
+        layout.setAlignItems(FlexComponent.Alignment.BASELINE);
+
+        addCard(DATA_VIEW, "Add Item", layout);
+    }
+
+    private List<Employee> getEmployeeList() {
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(new Employee("Employee 1"));
+        return employeeList;
     }
 
     private void dataViewFiltering() {
         // begin-source-example
         // source-example-heading: Filtering Items
         RadioButtonGroup<Integer> numbers = new RadioButtonGroup<>();
-        RadioButtonGroupListDataView<Integer> numbersDataView =
-                numbers.setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        RadioButtonGroupListDataView<Integer> numbersDataView = numbers
+                .setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
         RadioButtonGroup<String> oddEven = new RadioButtonGroup<>();
         oddEven.setLabel("Select Sub-set: ");
         oddEven.setItems("Odd Numbers", "Even Numbers", "No Filter");
         oddEven.addValueChangeListener(event -> {
             switch (event.getValue()) {
-                case "Odd Numbers":
-                    numbersDataView.setFilter(i -> i % 2 == 1);
-                    break;
+            case "Odd Numbers":
+                numbersDataView.setFilter(number -> number % 2 == 1);
+                break;
 
-                case "Even Numbers":
-                    numbersDataView.setFilter(i -> i % 2 == 0);
-                    break;
+            case "Even Numbers":
+                numbersDataView.setFilter(number -> number % 2 == 0);
+                break;
 
-                default:
-                    numbersDataView.removeFilters();
-                    break;
+            default:
+                numbersDataView.removeFilters();
+                break;
             }
         });
         // end-source-example
@@ -346,6 +351,10 @@ public class RadioButtonGroupView extends DemoView {
         private String image;
 
         public Employee() {
+        }
+
+        public Employee(String title) {
+            this.title = title;
         }
 
         private Employee(String title, String image) {

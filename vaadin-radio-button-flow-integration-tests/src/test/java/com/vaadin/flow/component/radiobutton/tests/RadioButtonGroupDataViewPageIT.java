@@ -37,14 +37,14 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
 
         findElement(By.id("updBtnGdpDv")).click();
 
-        WebElement group = findElement(By.id("rgbForDataView"));
+        WebElement group = findElement(By.id("rbgForDataView"));
         List<WebElement> buttons = group
                 .findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
         Assert.assertEquals("Group should have buttons", 2, buttons.size());
 
-        Assert.assertEquals("First RadioButton should be updated to",
-                CHANGED_1, buttons.get(0).getText());
+        Assert.assertEquals("First RadioButton should be updated to", CHANGED_1,
+                buttons.get(0).getText());
 
         Assert.assertEquals(
                 "Second RadioButton should still holds the old value", SECOND,
@@ -56,14 +56,14 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
 
         findElement(By.id("updBtnLstDv")).click();
 
-        WebElement group = findElement(By.id("rgbForListDataView"));
+        WebElement group = findElement(By.id("rbgForListDataView"));
         List<WebElement> buttons = group
                 .findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
         Assert.assertEquals("Group should have buttons", 2, buttons.size());
 
-        Assert.assertEquals("First RadioButton should be updated to",
-                CHANGED_1, buttons.get(0).getText());
+        Assert.assertEquals("First RadioButton should be updated to", CHANGED_1,
+                buttons.get(0).getText());
 
         Assert.assertEquals(
                 "Second RadioButton should still holds the old value", SECOND,
@@ -73,7 +73,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
     @Test
     public void testListDataView_addItem_shouldAddOneAndOnlyOneItem() {
 
-        WebElement group = findElement(By.id("rgbForAddToDataView"));
+        WebElement group = findElement(By.id("rbgForAddToDataView"));
         List<WebElement> buttons = group
                 .findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
@@ -83,7 +83,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
 
         waitForElementPresent(By.tagName(VAADIN_RADIO_BUTTON));
 
-        group = findElement(By.id("rgbForAddToDataView"));
+        group = findElement(By.id("rbgForAddToDataView"));
         buttons = group.findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
         Assert.assertEquals("Group should have buttons", 2, buttons.size());
@@ -99,7 +99,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
     @Test
     public void testListDataView_addAndRemoveFilters_shouldProduceCorrectNumberOfRadioButtons() {
 
-        WebElement group = findElement(By.id("rgbForFilterDataView"));
+        WebElement group = findElement(By.id("rbgForFilterDataView"));
         List<WebElement> buttons = group
                 .findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
@@ -108,7 +108,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
         findElement(By.id("filterOdds")).click();
         waitForElementPresent(By.tagName(VAADIN_RADIO_BUTTON));
 
-        group = findElement(By.id("rgbForFilterDataView"));
+        group = findElement(By.id("rbgForFilterDataView"));
         buttons = group.findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
         Assert.assertEquals("Group should have buttons", 5, buttons.size());
@@ -116,7 +116,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
         findElement(By.id("noFilter")).click();
         waitForElementPresent(By.tagName(VAADIN_RADIO_BUTTON));
 
-        group = findElement(By.id("rgbForFilterDataView"));
+        group = findElement(By.id("rbgForFilterDataView"));
         buttons = group.findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
         Assert.assertEquals("Group should have buttons", 10, buttons.size());

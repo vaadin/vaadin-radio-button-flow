@@ -73,8 +73,8 @@ public class RadioButtonGroupDataViewTest
         dataView.refreshItem(new Item(1L));
 
         Assert.assertTrue(containsLabel(component, "changed-1"));
-        Assert.assertTrue(containsLabel(component, "second")); // should have
-        // the old value
+        // following should have the old value:
+        Assert.assertTrue(containsLabel(component, "second"));
     }
 
     @Test
@@ -97,8 +97,8 @@ public class RadioButtonGroupDataViewTest
         listDataView.refreshItem(new Item(1L));
 
         Assert.assertTrue(containsLabel(component, "changed-1"));
-        Assert.assertTrue(containsLabel(component, "second")); // should have
-        // the old value
+        // following should have the old value:
+        Assert.assertTrue(containsLabel(component, "second"));
     }
 
     @Test
@@ -119,8 +119,8 @@ public class RadioButtonGroupDataViewTest
         listDataView.refreshItem(new Item(1L, "changed-1"));
 
         Assert.assertTrue(containsLabel(component, "changed-1"));
-        Assert.assertTrue(containsLabel(component, "second")); // should have
-        // the old value
+        // following should have the old value:
+        Assert.assertTrue(containsLabel(component, "second"));
     }
 
     @Test
@@ -206,10 +206,10 @@ public class RadioButtonGroupDataViewTest
     }
 
     private boolean containsLabel(RadioButtonGroup<Item> radioButtonGroup,
-                                  String label) {
+            String label) {
         String elementLabel = String.format(OUTER_HTML, label);
         return radioButtonGroup.getChildren().map(Component::getElement)
-                .anyMatch(l -> l.getOuterHTML().equals(elementLabel));
+                .anyMatch(elem -> elem.getOuterHTML().equals(elementLabel));
     }
 
     private static class GenericDataProvider
