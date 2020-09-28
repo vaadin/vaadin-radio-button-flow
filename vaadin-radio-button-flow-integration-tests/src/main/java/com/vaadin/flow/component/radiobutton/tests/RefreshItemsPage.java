@@ -25,15 +25,15 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.Route;
 
-@Route("refresh-data-provider")
-public class RefreshDataProviderPage extends Div {
+@Route("refresh-items")
+public class RefreshItemsPage extends Div {
 
-    public RefreshDataProviderPage() {
+    public RefreshItemsPage() {
         RadioButtonGroup<String> group = new RadioButtonGroup<>();
         group.setId("group");
 
         List<String> items = new LinkedList<>(Arrays.asList("foo", "bar"));
-        group.setItems(new ListDataProvider<>(items));
+        group.setItems(items);
 
         NativeButton button = new NativeButton("Update items", e -> {
             items.add("baz");

@@ -282,10 +282,15 @@ public class RadioButtonGroupView extends DemoView {
         Button addButton = new Button("Add to Options",
                 click -> dataView.addItem(new Employee(
                         "Employee " + (employeeCounter.incrementAndGet()))));
+        Button removeButton = new Button("Remove from Options", click -> {
+            if (dataView.getItemCount() > 0)
+                dataView.removeItem(
+                        dataView.getItem(dataView.getItemCount() - 1));
+        });
         // end-source-example
 
         HorizontalLayout layout = new HorizontalLayout(radioButtonGroup,
-                addButton);
+                addButton, removeButton);
         layout.setAlignItems(FlexComponent.Alignment.BASELINE);
 
         addCard(DATA_VIEW, "Add Item", layout);
