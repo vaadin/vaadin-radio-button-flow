@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.NativeButton;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.dataview.RadioButtonGroupDataView;
 import com.vaadin.flow.component.radiobutton.dataview.RadioButtonGroupListDataView;
@@ -20,17 +22,44 @@ public class RadioButtonGroupDataViewPage extends Div {
 
     private static final String FIRST = "first";
     private static final String SECOND = "second";
+    private static final String THIRD = "third";
     private static final String CHANGED_1 = "changed-1";
     private static final String CHANGED_2 = "changed-2";
 
+    static final String RADIO_GROUP_FOR_DATA_VIEW = "radio-group-for-data-view";
+    static final String RADIO_GROUP_FOR_LIST_DATA_VIEW = "radio-group-for-list-data-view";
+    static final String RADIO_GROUP_FOR_ADD_TO_DATA_VIEW = "radio-group-for-add-to-data-view";
+    static final String RADIO_GROUP_FOR_REMOVE_FROM_DATA_VIEW = "radio-group-for-remove-from-data-view";
+    static final String RADIO_GROUP_FOR_FILTER_DATA_VIEW = "radio-group-for-filter-data-view";
+    static final String RADIO_GROUP_FOR_NEXT_PREV_DATA_VIEW = "radio-group-for-next-prev-data-view";
+    static final String RADIO_GROUP_FOR_SORT_DATA_VIEW = "radio-group-for-sort-data-view";
+
+    static final String DATA_VIEW_UPDATE_BUTTON = "data-view-update-button";
+    static final String LIST_DATA_VIEW_UPDATE_BUTTON = "list-data-view-update-button";
+    static final String LIST_DATA_VIEW_ADD_BUTTON = "list-data-view-add-button";
+    static final String LIST_DATA_VIEW_REMOVE_BUTTON = "list-data-view-remove-button";
+    static final String LIST_DATA_VIEW_SET_FILTER_BUTTON = "list-data-view-set-filter-button";
+    static final String LIST_DATA_VIEW_ADD_FILTER_BUTTON = "list-data-view-add-filter-button";
+    static final String LIST_DATA_VIEW_REMOVE_FILTER_BUTTON = "list-data-view-remove-filter-button";
+    static final String LIST_DATA_VIEW_NEXT_BUTTON = "list-data-view-next-button";
+    static final String LIST_DATA_VIEW_PREV_BUTTON = "list-data-view-prev-button";
+    static final String LIST_DATA_VIEW_SORT_BUTTON = "list-data-view-sort-button";
+
+    static final String CURRENT_ITEM_SPAN = "current-item-span";
+    static final String HAS_NEXT_ITEM_SPAN = "has-next-item-span";
+    static final String HAS_PREV_ITEM_SPAN = "has-prev-item-span";
+
     public RadioButtonGroupDataViewPage() {
-        createGenericDataViewRadioButtonGroup();
-        createListDataViewRadioButtonGroup();
-        createAddItemByDataViewRadioButtonGroup();
-        createFilterItemsByDataViewRadioButtonGroup();
+        createGenericDataView();
+        createListDataView();
+        createAddItemByDataView();
+        createRemoveItemByDataView();
+        createFilterItemsByDataView();
+        createNextPreviousItemDataView();
+        createSetSortComparatorDataView();
     }
 
-    private void createGenericDataViewRadioButtonGroup() {
+    private void createGenericDataView() {
         Item first = new Item(1L, FIRST);
         Item second = new Item(2L, SECOND);
 
@@ -38,7 +67,7 @@ public class RadioButtonGroupDataViewPage extends Div {
         GenericDataProvider dataProvider = new GenericDataProvider(items);
 
         RadioButtonGroup<Item> rbgForDataView = new RadioButtonGroup<>();
-        rbgForDataView.setId("rbgForDataView");
+        rbgForDataView.setId(RADIO_GROUP_FOR_DATA_VIEW);
 
         RadioButtonGroupDataView<Item> dataView = rbgForDataView
                 .setItems(dataProvider);
@@ -51,17 +80,17 @@ public class RadioButtonGroupDataViewPage extends Div {
 
                     dataView.refreshItem(new Item(1L));
                 });
-        dataViewUpdateButton.setId("updBtnGdpDv");
+        dataViewUpdateButton.setId(DATA_VIEW_UPDATE_BUTTON);
 
         add(rbgForDataView, dataViewUpdateButton);
     }
 
-    private void createListDataViewRadioButtonGroup() {
+    private void createListDataView() {
         Item first = new Item(1L, FIRST);
         Item second = new Item(2L, SECOND);
 
         RadioButtonGroup<Item> rbgForListDataView = new RadioButtonGroup<>();
-        rbgForListDataView.setId("rbgForListDataView");
+        rbgForListDataView.setId(RADIO_GROUP_FOR_LIST_DATA_VIEW);
 
         RadioButtonGroupListDataView<Item> dataView = rbgForListDataView
                 .setItems(first, second);
@@ -74,48 +103,136 @@ public class RadioButtonGroupDataViewPage extends Div {
 
                     dataView.refreshItem(new Item(1L));
                 });
-        dataViewUpdateButton.setId("updBtnLstDv");
+        dataViewUpdateButton.setId(LIST_DATA_VIEW_UPDATE_BUTTON);
 
         add(rbgForListDataView, dataViewUpdateButton);
     }
 
-    private void createAddItemByDataViewRadioButtonGroup() {
+    private void createAddItemByDataView() {
         Item first = new Item(1L, FIRST);
         List<Item> items = new ArrayList<>();
         items.add(first);
 
         RadioButtonGroup<Item> rbgForAddToDataView = new RadioButtonGroup<>();
-        rbgForAddToDataView.setId("rbgForAddToDataView");
+        rbgForAddToDataView.setId(RADIO_GROUP_FOR_ADD_TO_DATA_VIEW);
 
         RadioButtonGroupListDataView<Item> dataView = rbgForAddToDataView
                 .setItems(items);
 
-        NativeButton dataViewUpdateButton = new NativeButton("Add", click -> {
-            Item second = new Item(1L, SECOND);
+        NativeButton dataViewAddButton = new NativeButton("Add", click -> {
+            Item second = new Item(2L, SECOND);
             dataView.addItem(second);
         });
-        dataViewUpdateButton.setId("addBtnLstDv");
+        dataViewAddButton.setId(LIST_DATA_VIEW_ADD_BUTTON);
 
-        add(rbgForAddToDataView, dataViewUpdateButton);
+        add(rbgForAddToDataView, dataViewAddButton);
     }
 
-    private void createFilterItemsByDataViewRadioButtonGroup() {
+    private void createRemoveItemByDataView() {
+        Item first = new Item(1L, FIRST);
+        Item second = new Item(2L, SECOND);
+        List<Item> items = new ArrayList<>(Arrays.asList(first, second));
+
+        RadioButtonGroup<Item> rbgForRemoveFromDataView = new RadioButtonGroup<>();
+        rbgForRemoveFromDataView.setId(RADIO_GROUP_FOR_REMOVE_FROM_DATA_VIEW);
+
+        RadioButtonGroupListDataView<Item> dataView = rbgForRemoveFromDataView
+                .setItems(items);
+
+        NativeButton dataViewRemoveButton = new NativeButton("Remove",
+                click -> dataView.removeItem(second));
+        dataViewRemoveButton.setId(LIST_DATA_VIEW_REMOVE_BUTTON);
+
+        add(rbgForRemoveFromDataView, dataViewRemoveButton);
+    }
+
+    private void createFilterItemsByDataView() {
         RadioButtonGroup<Integer> numbers = new RadioButtonGroup<>();
-        numbers.setId("rbgForFilterDataView");
+        numbers.setId(RADIO_GROUP_FOR_FILTER_DATA_VIEW);
         RadioButtonGroupListDataView<Integer> numbersDataView = numbers
                 .setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-        NativeButton filterOdds = new NativeButton("Filter Odds", click ->
-            numbersDataView.setFilter(i -> i % 2 == 0)
-        );
-        filterOdds.setId("filterOdds");
+        NativeButton filterOdds = new NativeButton("Filter Odds",
+                click -> numbersDataView.setFilter(num -> num % 2 == 0));
+        filterOdds.setId(LIST_DATA_VIEW_SET_FILTER_BUTTON);
 
-        NativeButton noFilter = new NativeButton("No Filter", click ->
-            numbersDataView.removeFilters()
-        );
-        noFilter.setId("noFilter");
+        NativeButton filterMultiplesOfThree = new NativeButton(
+                "Filter Multiples of 3",
+                click -> numbersDataView.addFilter(num -> num % 3 != 0));
+        filterMultiplesOfThree.setId(LIST_DATA_VIEW_ADD_FILTER_BUTTON);
 
-        add(numbers, filterOdds, noFilter);
+        NativeButton noFilter = new NativeButton("No Filter",
+                click -> numbersDataView.removeFilters());
+        noFilter.setId(LIST_DATA_VIEW_REMOVE_FILTER_BUTTON);
+
+        add(numbers, filterOdds, filterMultiplesOfThree, noFilter);
+    }
+
+    private void createNextPreviousItemDataView() {
+        Item first = new Item(1L, FIRST);
+        Item second = new Item(2L, SECOND);
+        Item third = new Item(3L, THIRD);
+        List<Item> items = new ArrayList<>(Arrays.asList(first, second, third));
+
+        RadioButtonGroup<Item> rbgForNextPrevDataView = new RadioButtonGroup<>();
+        rbgForNextPrevDataView.setId(RADIO_GROUP_FOR_NEXT_PREV_DATA_VIEW);
+
+        RadioButtonGroupListDataView<Item> dataView = rbgForNextPrevDataView
+                .setItems(items);
+
+        AtomicReference<Item> current = new AtomicReference<>(second);
+        Span currentItem = new Span(current.get().getValue());
+        currentItem.setId(CURRENT_ITEM_SPAN);
+        Span hasNextItem = new Span(String
+                .valueOf(dataView.getNextItem(current.get()).isPresent()));
+        hasNextItem.setId(HAS_NEXT_ITEM_SPAN);
+        Span hasPrevItem = new Span(String
+                .valueOf(dataView.getPreviousItem(current.get()).isPresent()));
+        hasPrevItem.setId(HAS_PREV_ITEM_SPAN);
+
+        NativeButton dataViewNextButton = new NativeButton("Next", click -> {
+            current.set(dataView.getNextItem(current.get()).get());
+            currentItem.setText(current.get().getValue());
+            hasNextItem.setText(String
+                    .valueOf(dataView.getNextItem(current.get()).isPresent()));
+            hasPrevItem.setText(String.valueOf(
+                    dataView.getPreviousItem(current.get()).isPresent()));
+        });
+        dataViewNextButton.setId(LIST_DATA_VIEW_NEXT_BUTTON);
+
+        NativeButton dataViewPrevButton = new NativeButton("Previous",
+                click -> {
+                    current.set(dataView.getPreviousItem(current.get()).get());
+                    currentItem.setText(current.get().getValue());
+                    hasNextItem.setText(String.valueOf(
+                            dataView.getNextItem(current.get()).isPresent()));
+                    hasPrevItem.setText(String.valueOf(dataView
+                            .getPreviousItem(current.get()).isPresent()));
+                });
+        dataViewPrevButton.setId(LIST_DATA_VIEW_PREV_BUTTON);
+
+        add(rbgForNextPrevDataView, dataViewNextButton, dataViewPrevButton,
+                currentItem, hasNextItem, hasPrevItem);
+    }
+
+    private void createSetSortComparatorDataView() {
+        Item first = new Item(1L, FIRST);
+        Item second = new Item(2L, SECOND);
+        Item third = new Item(3L, THIRD);
+        List<Item> items = new ArrayList<>(Arrays.asList(third, first, second));
+
+        RadioButtonGroup<Item> rbgForSortDataView = new RadioButtonGroup<>();
+        rbgForSortDataView.setId(RADIO_GROUP_FOR_SORT_DATA_VIEW);
+
+        RadioButtonGroupListDataView<Item> dataView = rbgForSortDataView
+                .setItems(items);
+
+        NativeButton dataViewSortButton = new NativeButton("Sort",
+                click -> dataView.setSortComparator((item1, item2) -> item1
+                        .getValue().compareToIgnoreCase(item2.getValue())));
+        dataViewSortButton.setId(LIST_DATA_VIEW_SORT_BUTTON);
+
+        add(rbgForSortDataView, dataViewSortButton);
     }
 
     private static class GenericDataProvider
