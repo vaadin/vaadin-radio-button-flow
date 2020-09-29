@@ -52,7 +52,7 @@ public class RadioButtonGroupView extends DemoView {
         disabledAndDisabledItem();
         valueChangeEvent();
         dataViewRefreshItem(); // Data View
-        dataViewAddItem();
+        dataViewAddAndRemoveItem();
         dataViewFiltering();
         configurationForRequired(); // Validation
         customOptions(); // Presentation
@@ -270,22 +270,25 @@ public class RadioButtonGroupView extends DemoView {
         addCard(DATA_VIEW, "Refresh Items", radioButtonGroup, updateButton);
     }
 
-    private void dataViewAddItem() {
+    private void dataViewAddAndRemoveItem() {
         // begin-source-example
-        // source-example-heading: Add Item
+        // source-example-heading: Add and Remove Item
         RadioButtonGroup<Employee> radioButtonGroup = new RadioButtonGroup<>();
         radioButtonGroup.setLabel("Assignable Employees: ");
+        List<Employee> employeeList = getEmployeeList();
         RadioButtonGroupListDataView<Employee> dataView = radioButtonGroup
-                .setItems(getEmployeeList());
+                .setItems(employeeList);
         radioButtonGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
         AtomicInteger employeeCounter = new AtomicInteger(1);
         Button addButton = new Button("Add to Options",
                 click -> dataView.addItem(new Employee(
                         "Employee " + (employeeCounter.incrementAndGet()))));
         Button removeButton = new Button("Remove from Options", click -> {
-            if (dataView.getItemCount() > 0)
+            int itemCount = dataView.getItemCount();
+            if (itemCount > 0) {
                 dataView.removeItem(
-                        dataView.getItem(dataView.getItemCount() - 1));
+                        dataView.getItem(itemCount - 1));
+            }
         });
         // end-source-example
 
@@ -293,7 +296,7 @@ public class RadioButtonGroupView extends DemoView {
                 addButton, removeButton);
         layout.setAlignItems(FlexComponent.Alignment.BASELINE);
 
-        addCard(DATA_VIEW, "Add Item", layout);
+        addCard(DATA_VIEW, "Add and Remove Item", layout);
     }
 
     private List<Employee> getEmployeeList() {
