@@ -146,7 +146,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
                 .findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
         Assert.assertEquals("Group should have buttons", 10, buttons.size());
-        //
+
         findElement(By.id(LIST_DATA_VIEW_SET_FILTER_BUTTON)).click();
         waitForElementPresent(By.tagName(VAADIN_RADIO_BUTTON));
 
@@ -154,7 +154,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
         buttons = group.findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
         Assert.assertEquals("Group should have buttons", 5, buttons.size());
-        //
+
         findElement(By.id(LIST_DATA_VIEW_ADD_FILTER_BUTTON)).click();
         waitForElementPresent(By.tagName(VAADIN_RADIO_BUTTON));
 
@@ -162,7 +162,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
         buttons = group.findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
         Assert.assertEquals("Group should have buttons", 4, buttons.size());
-        //
+
         findElement(By.id(LIST_DATA_VIEW_REMOVE_FILTER_BUTTON)).click();
         waitForElementPresent(By.tagName(VAADIN_RADIO_BUTTON));
 
@@ -185,7 +185,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
                 hasNextItemSpan.getText());
         Assert.assertEquals("HasPreviousItem's text should be", "true",
                 hasPrevItemSpan.getText());
-        //
+
         findElement(By.id(LIST_DATA_VIEW_NEXT_BUTTON)).click();
         currentItemSpan = findElement(By.id(CURRENT_ITEM_SPAN));
         hasNextItemSpan = findElement(By.id(HAS_NEXT_ITEM_SPAN));
@@ -197,7 +197,7 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
                 hasNextItemSpan.getText());
         Assert.assertEquals("HasPreviousItem's text should be", "true",
                 hasPrevItemSpan.getText());
-        //
+
         findElement(By.id(LIST_DATA_VIEW_PREV_BUTTON)).click();
         findElement(By.id(LIST_DATA_VIEW_PREV_BUTTON)).click();
         currentItemSpan = findElement(By.id(CURRENT_ITEM_SPAN));
@@ -225,10 +225,10 @@ public class RadioButtonGroupDataViewPageIT extends AbstractComponentIT {
                 "first", buttons.get(1).getText());
         Assert.assertEquals("third rendered radio button's text should be",
                 "second", buttons.get(2).getText());
-        //
+
         findElement(By.id(LIST_DATA_VIEW_SORT_BUTTON)).click();
         waitForElementPresent(By.tagName(VAADIN_RADIO_BUTTON));
-        //
+
         group = findElement(By.id(RADIO_GROUP_FOR_SORT_DATA_VIEW));
         buttons = group.findElements(By.tagName(VAADIN_RADIO_BUTTON));
 
